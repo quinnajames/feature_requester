@@ -33,7 +33,8 @@ class Feature(db.Model):
     target_date = db.Column(db.DateTime, nullable=False)
     product_area = db.Column(db.String(30), nullable=False)
 
-    def __init__(self, title, text, username, score):
+    def __init__(self, title, description, client, client_priority,
+        target_date, product_area):
         self.title = title
         self.description = description
         self.client = client
@@ -41,7 +42,7 @@ class Feature(db.Model):
         self.target_date = target_date
         self.product_area = product_area
     def __repr__(self):
-        return "<Entry(title='%s', description='%s', client='%s', client_priority='%d', \
+        return "<Feature(title='%s', description='%s', client='%s', client_priority='%d', \
                 target_date='%s', product_area='%s')>" % (
                             self.title, self.description, self.client, self.client_priority,
                             self.target_date.isoformat(), self.product_area)
