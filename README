@@ -1,5 +1,8 @@
 A program that allows a business client to create project feature requests.
 
+Current project status:
+Mostly just setup boilerplate. Nothing exciting yet.
+
 To run the app locally:
 1. Clone the repo
 2. cd to the top-level feature_requester directory
