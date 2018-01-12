@@ -1,0 +1,2 @@
+graft feature_requester/templates
+graft feature_requester/static

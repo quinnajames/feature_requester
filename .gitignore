@@ -1,0 +1,7 @@
+feature_requester/__pycache__
+feature_requester/config.py
+feature.db
+.eggs/
+feature_requester.egg-info/
+venv/
+instance/

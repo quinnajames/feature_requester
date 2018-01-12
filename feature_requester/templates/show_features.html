@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Feature Requester</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    </head>
+      <body>
+    <div class=page>
+      <h1>Feature Requester</h1>
+    </div>
+    <script
+			  src="https://code.jquery.com/jquery-3.2.1.min.js"
+			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+			  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
+
+
+
+<ul class=features data-bind="foreach: features, visible: features().length > 0">
+      <li>
+        <h2 data-bind="text: title"></h2>
+        <p data-bind="text: description"></p>
+      </li>
+    </ul>
+    <ul class=features data-bind="visible: features().length === 0">
+      <li><em>No features have been added yet.</em></li>
+</ul>
