@@ -3,28 +3,123 @@
   <head>
     <title>Feature Requester</title>
     <!-- css libs -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
     </head>
       <body>
-    <div class=page>
-      <h1>Feature Requester</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Feature Requester</h1>
+      </div>
     </div>
 
-    <ul class="features" data-bind="foreach: features, visible: features().length > 0">
-          <li>
-            <h2 data-bind="text: title"></h2>
-            <p>For: <span data-bind="text: client"></span></p>
-            <p>Priority: <span data-bind="text: client_priority"></span></p>
-            <p>Target date: <span data-bind="text: target_date"></span></p>
-            <p>Area: <span data-bind="text: product_area"></span></p>
+    <div class="container">
+
+      <!-- ko ifnot: showForm -->
+      <div class="col">
+        <button class="btn btn-primary btn-block" data-bind="click: toggleForm">Add Feature</button>
+      </div>
+
+      <!-- /ko -->
+
+
+      <!-- ko if: showForm -->
+      <div class="form">
+        <div class="row">
+            <div class="col-md-8">
+              <h3>Add Feature</h3>
+            </div>
+            <div class="col-md-4">
+              <a href="#" data-bind="click: toggleForm">Hide form</a>
+            </div>
+        </div>
+
+          <form data-bind="with: newFeature">
+      <div class="row">
+          <div class="col">
+            <label for="title">Title:</label>
+              <input id="title" name="title" data-bind="value: title" class="form-control" type="text" size="30" name=title />
+          </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="client">Client:</label>
+          <select id="client" name="client" data-bind="options: $root.clientOptions" class="form-control"></select>
+        </div>
+        <div class="col">
+          <label for="target_date">Target date:</label>
+          <select id="target_date" name="target_date" data-bind="value: target_date" type="date" class="form-control"></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <label for="description">Description:</label>
+              <textarea id="description" name="description" data-bind="value: description" class="form-control" size="300"></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="priority">Priority:</label>
+            <input id="priority" name="priority" data-bind="value: priority" type="number" class="form-control" size="5" />
+        </div>
+        <div class="col">
+          <label for="product_area">Product Area:</label>
+          <select id="product_area" name="product_area" data-bind="options: $root.productOptions" class="form-control"></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+      </div>
+
+          </form>
+        </div>
+        <!-- /ko -->
+      </div>
+
+  </div>
+  <div class="container">
+
+    <!--ko foreach: features -->
+
+    <div class="feature-margin" data-bind="visible: $root.features().length > 0">
+      <div class="feature">
+        <div class="row">
+          <div class="col">
+              <h5>#<span data-bind="text: client_priority"></span>:
+                <span data-bind="text: title"></span></h5>
+          </div>
+          <div class="col">
+              [<span data-bind="text: client"></span>]
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+              Product area: <span data-bind="text: product_area"></span>
+          </div>
+          <div class="col">
+              <p>Target date: <span data-bind="text: target_date"></span></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
             <p class="description" data-bind="text: description"></p>
-          </li>
-        </ul>
-        <ul class=features data-bind="visible: features().length === 0">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /ko -->
+
+
+        <ul data-bind="visible: $root.features().length === 0">
           <li><em>No features have been added yet.</em></li>
     </ul>
+
+  </div>
 
     <!-- js libs -->
     <script
@@ -32,9 +127,11 @@
 			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 			  crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"
         crossorigin="anonymous"></script>
-    <!-- static js -->
+    <!-- local js -->
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

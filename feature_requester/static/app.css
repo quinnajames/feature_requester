@@ -1,3 +1,26 @@
 p.description {
   font-style: italic;
 }
+div.form {
+  border: 3px solid #bbb;
+  padding: 3px;
+  background-color: #eee;
+}
+div.feature {
+  border: 3px solid #03a678;
+  padding: 3px;
+  background-color: #2abb9b;
+}
+div.feature-margin {
+  background-color: #f1f1f1;
+  padding: 8px;
+  visibility: none !important;
+}
+.row {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.col {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

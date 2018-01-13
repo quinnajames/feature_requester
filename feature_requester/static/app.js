@@ -12,16 +12,24 @@ Feature = function(title, description, client, client_priority,
 
 FeatureViewModel = function() {
   let self = this;
+
   self.features = ko.observableArray([]);
   self.newFeature = populateNewFeature();
+  self.clientOptions = ['Client A', 'Client B', 'Client C'];
+  self.productOptions = ['Policies', 'Billing', 'Claims', 'Reports'];
 
+  self.showForm = ko.observable();
+  self.showForm(false);
 
   function populateNewFeature() {
-    return new Feature("", "", "", self.features.length + 1,
+    return new Feature("", "", "", self.features().length + 1,
       "", "", null);
   }
-  //on load
-  console.log(self.features())
+
+  self.toggleForm = function() {
+    console.log("toggleForm");
+    self.showForm(!self.showForm());
+  }
 }
 
 let fvm = new FeatureViewModel();
