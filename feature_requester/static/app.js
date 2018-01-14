@@ -42,13 +42,13 @@ let fvm = new FeatureViewModel();
 
 // For dry-run purposes
 fvm.features.push(new Feature("Feature", "A really important feature",
-"Client A", 1, "4/1/2019", "Business", 2));
+"Client A", 1, "04/01/2019", "Business", 2));
 fvm.features.push(new Feature("Feature 2", "Perhaps a bit less important",
-"Client A", 2, "6/17/2019", "Business", 1));
+"Client A", 2, "06/17/2019", "Business", 1));
 fvm.features.push(new Feature("New car", "Just literally a new car",
-"Client B", 1, "6/17/2019", "Products", 3));
+"Client B", 1, "06/17/2019", "Products", 3));
 fvm.features.push(new Feature("Claim report", "Client claims there is a report",
-"Client C", 1, "6/17/2019", "Claims", 3));
+"Client C", 1, "06/17/2019", "Claims", 3));
 fvm.features.push(new Feature("Report claim", "Client reports there is a claim",
-"Client C", 2, "6/17/2019", "Reports", 3));
+"Client C", 2, "06/17/2019", "Reports", 3));
 ko.applyBindings(fvm);
