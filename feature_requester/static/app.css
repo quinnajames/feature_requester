@@ -6,10 +6,20 @@ div.form {
   padding: 3px;
   background-color: #eee;
 }
-div.feature {
+div.feature, div.clienta {
   border: 3px solid #03a678;
   padding: 3px;
   background-color: #2abb9b;
+}
+div.clientb {
+  border: 3px solid #5D3F6A;
+  padding: 3px;
+  background-color: #89729E;
+}
+div.clientc {
+  border: 3px solid #FFA400;
+  padding: 3px;
+  background-color: #FFA631;
 }
 div.feature-margin {
   background-color: #f1f1f1;

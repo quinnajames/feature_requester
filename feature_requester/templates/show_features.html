@@ -87,7 +87,7 @@
     <!--ko foreach: features -->
 
     <div class="feature-margin" data-bind="visible: $root.features().length > 0">
-      <div class="feature">
+      <div data-bind="css: clientClass">
         <div class="row">
           <div class="col">
               <h5>#<span data-bind="text: client_priority"></span>:
