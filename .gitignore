@@ -5,3 +5,4 @@ feature.db
 feature_requester.egg-info/
 venv/
 instance/
+feature_requester/bower_components/

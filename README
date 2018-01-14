@@ -11,7 +11,8 @@ To run the app locally:
 3. pip install -e .
 4. export FLASK_APP=feature_requester
   [In Windows: set FLASK_APP=feature_requester]
-5. cd feature_requester
-6. flask initdb (if this is your first time)
-7. flask run
-8: go to localhost:5000 in the browser
+5. flask initdb (if this is your first time)
+6. cd feature_requester
+7. bower install
+8. flask run
+9: go to localhost:5000 in the browser

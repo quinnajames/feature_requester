@@ -3,10 +3,12 @@
   <head>
     <title>Feature Requester</title>
     <!-- css libs -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="{{ url_for('bower.static', filename='bootstrap/dist/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('bower.static', filename='jquery-ui/themes/smoothness/jquery-ui.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('bower.static', filename='bootflat/css/bootflat.css') }}" />
 
     <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
+
     </head>
       <body>
     <div class="row">
@@ -121,17 +123,13 @@
 
   </div>
 
-    <!-- js libs -->
-    <script
-			  src="https://code.jquery.com/jquery-3.2.1.min.js"
-			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-			  crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- js -->
+    <script src="{{ url_for('bower.static', filename='jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='knockout/dist/knockout.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='knockout-jqueryui/dist/knockout-jqueryui.js') }}"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"
-        crossorigin="anonymous"></script>
-    <!-- local js -->
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_bower import Bower
 
 # Create Flask app instance
 app = Flask(__name__)
@@ -20,7 +21,8 @@ app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 db = SQLAlchemy(app)
 engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 
-
+# Create Bower
+Bower(app)
 
 # Database Models
 class Feature(db.Model):

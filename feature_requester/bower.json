@@ -1,0 +1,26 @@
+{
+  "name": "feature_requester",
+  "homepage": "https://github.com/quinnajames/feature_requester",
+  "authors": [
+    "Quinn James <quinn@quinnjames.net>"
+  ],
+  "description": "A program that allows a business client to create project feature requests.",
+  "main": "feature_requester/static/app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootflat": "*",
+    "knockout": "^3.4.2",
+    "jquery": "^3.2.1",
+    "jquery-ui": "jqueryui#^1.12.1",
+    "knockout-jqueryui": "^2.2.3",
+    "bootstrap": "^4.0.0-beta.3"
+  }
+}

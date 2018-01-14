@@ -46,5 +46,9 @@ fvm.features.push(new Feature("Feature", "A really important feature",
 fvm.features.push(new Feature("Feature 2", "Perhaps a bit less important",
 "Client A", 2, "6/17/2019", "Business", 1));
 fvm.features.push(new Feature("New car", "Just literally a new car",
-"Client B", 1, "6/17/2019", "Business", 3));
+"Client B", 1, "6/17/2019", "Products", 3));
+fvm.features.push(new Feature("Claim report", "Client claims there is a report",
+"Client C", 1, "6/17/2019", "Claims", 3));
+fvm.features.push(new Feature("Report claim", "Client reports there is a claim",
+"Client C", 2, "6/17/2019", "Reports", 3));
 ko.applyBindings(fvm);
