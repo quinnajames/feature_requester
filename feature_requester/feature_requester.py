@@ -5,7 +5,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 from flask_sqlalchemy import SQLAlchemy
 
 # Create Flask app instance
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__)
 app.config.from_object(__name__)
 
 # Tell SQLAlchemy how to find the local DB and initialize it
