@@ -38,7 +38,7 @@
             </div>
         </div>
 
-          <form data-bind="with: newFeature">
+          <form data-bind="submit: addFeature, with: newFeature">
       <div class="row">
           <div class="col">
             <label for="title">Title:</label>
@@ -48,7 +48,7 @@
       <div class="row">
         <div class="col">
           <label for="client">Client:</label>
-          <select id="client" name="client" data-bind="options: $root.clientOptions" class="form-control"></select>
+          <select id="client" name="client" data-bind="options: $root.clientOptions, value: client" class="form-control"></select>
         </div>
         <div class="col">
           <label for="target_date">Target date:</label>
@@ -69,7 +69,7 @@
         </div>
         <div class="col">
           <label for="product_area">Product Area:</label>
-          <select id="product_area" name="product_area" data-bind="options: $root.productOptions" class="form-control"></select>
+          <select id="product_area" name="product_area" data-bind="options: $root.productOptions, value: product_area" class="form-control"></select>
         </div>
       </div>
       <div class="row">
