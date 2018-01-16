@@ -61,6 +61,7 @@ FeatureViewModel = function() {
 
     self.toggleForm = function() {
         console.log("toggleForm");
+        console.log(`changing ${self.showForm()} to ${!self.showForm()}`)
         self.showForm(!self.showForm());
       }
 

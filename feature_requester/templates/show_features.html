@@ -3,38 +3,39 @@
   <head>
     <title>Feature Requester</title>
     <!-- css libs -->
-    <link rel="stylesheet" href="{{ url_for('bower.static', filename='bootstrap/dist/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ url_for('bower.static', filename='jquery-ui/themes/smoothness/jquery-ui.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('bower.static', filename='bootstrap/dist/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ url_for('bower.static', filename='bootflat/css/bootflat.css') }}" />
 
     <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
 
     </head>
       <body>
-    <div class="row">
-      <div class="col-md-12">
-        <h1>Feature Requester</h1>
-      </div>
-    </div>
+
+        <div class="navbar navbar-inverse bg-inverse">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <a href="#" class="navbar-brand">Feature Requester</a>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-indigo btn-block"
+                  data-bind="click: toggleForm, text: (showForm()) ? 'Hide Form' : 'Add Feature'">Add Feature</button>
+              </div>
+             </div>
+            </div>
+          </div>
 
     <div class="container">
 
-      <!-- ko ifnot: showForm -->
-      <div class="col">
-        <button class="btn btn-primary btn-block" data-bind="click: toggleForm">Add Feature</button>
-      </div>
 
-      <!-- /ko -->
 
 
       <!-- ko if: showForm -->
       <div class="form">
         <div class="row">
             <div class="col-md-8">
-              <h3>Add Feature</h3>
-            </div>
-            <div class="col-md-4">
-              <a href="#" data-bind="click: toggleForm">Hide form</a>
+              <h3>Add New Feature</h3>
             </div>
         </div>
 
@@ -83,7 +84,6 @@
         <!-- /ko -->
       </div>
 
-  </div>
   <div class="container">
 
 
@@ -126,8 +126,8 @@
 
     <!-- js -->
     <script src="{{ url_for('bower.static', filename='jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url_for('bower.static', filename='bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ url_for('bower.static', filename='bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='knockout/dist/knockout.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='knockout-jqueryui/dist/knockout-jqueryui.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='knockout-validation/dist/knockout.validation.min.js') }}"></script>
