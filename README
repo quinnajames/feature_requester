@@ -6,14 +6,16 @@ DB definition and initial front-end layout prototype.
 To run the app locally:
 1. Clone the repo
 2. cd to the top-level feature_requester directory
-[Optional: python3 -m venv some_venv
-           . some_venv/bin/activate]
-3. pip install -e .
-4. export FLASK_APP=feature_requester
+3. [recommended] python3 -m venv venv
+4. [if 3] . venv/bin/activate
+5. pip install -e .
+6. pip install flask-bower
+7. export FLASK_APP=feature_requester
   [In Windows: set FLASK_APP=feature_requester]
-5. flask initdb (if this is your first time)
-6. cd feature_requester
-7. bower install
-8. cd ..
-9. flask run
-10: go to localhost:5000 in the browser
+8. flask initdb (if this is your first time)
+9. sudo npm install -g bower
+10. cd feature_requester
+11. bower install
+12. cd ..
+13. flask run
+14. go to localhost:5000 in the browser
