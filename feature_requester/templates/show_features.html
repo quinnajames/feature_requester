@@ -42,34 +42,34 @@
       <div class="row">
           <div class="col">
             <label for="title">Title:</label>
-              <input id="title" name="title" data-bind="value: title" class="form-control" type="text" size="30" name=title />
+              <input id="title" name="title" data-bind="value: title" class="form-control" type="text" size="30" name=title required="required"/>
           </div>
       </div>
       <div class="row">
         <div class="col">
           <label for="client">Client:</label>
-          <select id="client" name="client" data-bind="options: $root.formVM.clientOptions, value: client" class="form-control" ></select>
+          <select id="client" name="client" data-bind="options: $root.formVM.clientOptions, value: client" class="form-control" required="required"></select>
         </div>
         <div class="col">
           <label for="target_date">Target date:</label>
-          <input type="text" id="target_date" name="target_date" data-bind="datepicker: {}, value: target_date" type="date" class="form-control" ></select>
+          <input type="text" id="target_date" name="target_date" data-bind="datepicker: {}, value: target_date" type="date" class="form-control" required="required"></select>
         </div>
       </div>
       <div class="row">
         <div class="col">
             <label for="description">Description:</label>
-              <textarea id="description" name="description" data-bind="value: description" class="form-control" size="300" ></textarea>
+              <textarea id="description" name="description" data-bind="value: description" class="form-control" size="300" required="required"></textarea>
         </div>
       </div>
 
       <div class="row">
         <div class="col">
           <label for="priority">Priority:</label>
-            <input id="priority" name="priority" data-bind="value: priority" type="number" class="form-control" size="5" />
+            <input id="priority" name="priority" data-bind="value: priority" type="number" class="form-control" size="5" required="required"/>
         </div>
         <div class="col">
           <label for="product_area">Product Area:</label>
-          <select id="product_area" name="product_area" data-bind="options: $root.formVM.productOptions, value: product_area" class="form-control" ></select>
+          <select id="product_area" name="product_area" data-bind="options: $root.formVM.productOptions, value: product_area" class="form-control" required="required"></select>
         </div>
       </div>
       <div class="row">

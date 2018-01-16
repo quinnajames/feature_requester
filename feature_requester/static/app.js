@@ -29,12 +29,22 @@ FormViewModel = function() {
   self.clientOptions = ['Client A', 'Client B', 'Client C'];
   self.productOptions = ['Policies', 'Billing', 'Claims', 'Reports'];
 
+
   self.populateNewFeature = function() {
     // need like a global or subscribable for the default priority
-      return new Feature("", "", "Client A", 99,
-        "01/24/2018", "1", null);
-    }
+    let newFeatureObj = new Feature("", "", "Client A", 99,
+      "01/24/2018", "1", null);
+    newFeatureObj.title.extend({maxLength: 100});
+    newFeatureObj.description.extend({maxLength: 500});
+    newFeatureObj.priority.extend({digit: true}); // This accepts all integers.
+    return newFeatureObj;
+  }
   self.newFeature = self.populateNewFeature();
+
+  self.newFeature.errors = ko.validation.group(self.newFeature);
+  self.newFeature.isValid = function() {
+    return self.newFeature.errors().length === 0;
+  }
   console.log(self.newFeature);
 }
 
@@ -86,30 +96,36 @@ FeatureViewModel = function() {
   }
 
   self.addFeature = function() {
-    let data = {
-      'title': self.formVM.newFeature.title(),
-      'description': self.formVM.newFeature.description(),
-      'client': self.formVM.newFeature.client(),
-      'priority': self.formVM.newFeature.priority(),
-      'client_priority': self.formVM.newFeature.client_priority(),
-      'target_date': self.formVM.newFeature.target_date(),
-      'product_area': self.formVM.newFeature.product_area()
-    };
-    console.log(data);
-    return $.ajax({
-      url: '/add',
-      contentType: 'application/json',
-      type: 'POST',
-      data: JSON.stringify(data),
-      dataType: 'json',
-      success: (serverData) => {
-        //console.log(serverData);
-        self.features.unshift(self.makeFeatureFromData(serverData));
-      },
-      error: () => {
-        return console.log("Failed to save");
-      }
-    });
+    if (!self.formVM.newFeature.isValid()) {
+      self.formVM.newFeature.errors.showAllMessages();
+      return console.log("Form invalid");
+    }
+    else {
+      let data = {
+        'title': self.formVM.newFeature.title(),
+        'description': self.formVM.newFeature.description(),
+        'client': self.formVM.newFeature.client(),
+        'priority': self.formVM.newFeature.priority(),
+        'client_priority': self.formVM.newFeature.client_priority(),
+        'target_date': self.formVM.newFeature.target_date(),
+        'product_area': self.formVM.newFeature.product_area()
+      };
+      console.log(data);
+      return $.ajax({
+        url: '/add',
+        contentType: 'application/json',
+        type: 'POST',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        success: (serverData) => {
+          //console.log(serverData);
+          self.features.unshift(self.makeFeatureFromData(serverData));
+        },
+        error: () => {
+          return console.log("Failed to save");
+        }
+      });
+    }
   }
 
   // on load
