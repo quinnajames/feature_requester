@@ -1,8 +1,8 @@
 Feature = function(title, description, client, priority,
       target_date, product_area, id) {
   let self = this;
-  self.title = ko.observable(title);
-  self.description = ko.observable(description);
+  self.title = ko.observable(title)
+  self.description = ko.observable(description)
   self.client = ko.observable(client);
   self.priority = ko.observable(priority);
   self.target_date = ko.observable(target_date);
@@ -24,23 +24,38 @@ Feature = function(title, description, client, priority,
   })
 }
 
-FeatureViewModel = function() {
+FormViewModel = function() {
   let self = this;
-
-  self.features = ko.observableArray([]);
   self.clientOptions = ['Client A', 'Client B', 'Client C'];
   self.productOptions = ['Policies', 'Billing', 'Claims', 'Reports'];
 
-  self.showForm = ko.observable();
-  self.showForm(false);
-
   self.populateNewFeature = function() {
-    return new Feature("", "", "Client A", self.features().length + 1,
-      "01/24/2018", "1", null);
-  }
-
+    // need like a global or subscribable for the default priority
+      return new Feature("", "", "Client A", 99,
+        "01/24/2018", "1", null);
+    }
   self.newFeature = self.populateNewFeature();
+  console.log(self.newFeature);
+}
 
+FeatureViewModel = function() {
+  let self = this;
+  self.formVM = new FormViewModel();
+
+  console.log(self.formVM);
+  // 'Global'
+  self.features = ko.observableArray([]);
+
+    self.showForm = ko.observable();
+    self.showForm(false);
+
+    self.toggleForm = function() {
+        console.log("toggleForm");
+        self.showForm(!self.showForm());
+      }
+
+
+  // Display stuff
   self.mapJSONToFeatures = function(json) {
     console.log(`json: ${json.features}`);
     console.log(json.features);
@@ -50,19 +65,15 @@ FeatureViewModel = function() {
     });
     return featureModels;
   }
-
   self.updateFeatures = function() {
     $.getJSON('/features', (input) => {
       self.features(self.mapJSONToFeatures(input));
     });
   }
 
-  self.toggleForm = function() {
-    console.log("toggleForm");
-    self.showForm(!self.showForm());
-  }
+  // Combined
 
-  self.makeFeatureFromData = function() {
+  self.makeFeatureFromData = function(data) {
     return new Feature(
       data.title,
       data.description,
@@ -76,13 +87,13 @@ FeatureViewModel = function() {
 
   self.addFeature = function() {
     let data = {
-      'title': self.newFeature.title(),
-      'description': self.newFeature.description(),
-      'client': self.newFeature.client(),
-      'priority': self.newFeature.priority(),
-      'client_priority': self.newFeature.client_priority(),
-      'target_date': self.newFeature.target_date(),
-      'product_area': self.newFeature.product_area()
+      'title': self.formVM.newFeature.title(),
+      'description': self.formVM.newFeature.description(),
+      'client': self.formVM.newFeature.client(),
+      'priority': self.formVM.newFeature.priority(),
+      'client_priority': self.formVM.newFeature.client_priority(),
+      'target_date': self.formVM.newFeature.target_date(),
+      'product_area': self.formVM.newFeature.product_area()
     };
     console.log(data);
     return $.ajax({

@@ -21,6 +21,7 @@
     "jquery": "^3.2.1",
     "jquery-ui": "jqueryui#^1.12.1",
     "knockout-jqueryui": "^2.2.3",
-    "bootstrap": "^4.0.0-beta.3"
+    "bootstrap": "^4.0.0-beta.3",
+    "knockout-validation": "^2.0.3"
   }
 }
