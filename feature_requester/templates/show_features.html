@@ -38,38 +38,38 @@
             </div>
         </div>
 
-          <form data-bind="submit: addFeature, with: newFeature">
+          <form id="featureForm" data-bind="submit: addFeature, with: newFeature">
       <div class="row">
           <div class="col">
             <label for="title">Title:</label>
-              <input id="title" name="title" data-bind="value: title" class="form-control" type="text" size="30" name=title />
+              <input id="title" name="title" data-bind="value: title" class="form-control" type="text" size="30" name=title required/>
           </div>
       </div>
       <div class="row">
         <div class="col">
           <label for="client">Client:</label>
-          <select id="client" name="client" data-bind="options: $root.clientOptions, value: client" class="form-control"></select>
+          <select id="client" name="client" data-bind="options: $root.clientOptions, value: client" class="form-control" required></select>
         </div>
         <div class="col">
           <label for="target_date">Target date:</label>
-          <input type="text" id="target_date" name="target_date" data-bind="datepicker: {}, value: target_date" type="date" class="form-control"></select>
+          <input type="text" id="target_date" name="target_date" data-bind="datepicker: {}, value: target_date" type="date" class="form-control" required></select>
         </div>
       </div>
       <div class="row">
         <div class="col">
             <label for="description">Description:</label>
-              <textarea id="description" name="description" data-bind="value: description" class="form-control" size="300"></textarea>
+              <textarea id="description" name="description" data-bind="value: description" class="form-control" size="300" required></textarea>
         </div>
       </div>
 
       <div class="row">
         <div class="col">
           <label for="priority">Priority:</label>
-            <input id="client_priority" name="client_priority" data-bind="value: client_priority" type="number" class="form-control" size="5" />
+            <input id="priority" name="priority" data-bind="value: priority" type="number" class="form-control" size="5" required/>
         </div>
         <div class="col">
           <label for="product_area">Product Area:</label>
-          <select id="product_area" name="product_area" data-bind="options: $root.productOptions, value: product_area" class="form-control"></select>
+          <select id="product_area" name="product_area" data-bind="options: $root.productOptions, value: product_area" class="form-control" required></select>
         </div>
       </div>
       <div class="row">
@@ -86,17 +86,17 @@
   </div>
   <div class="container">
 
-    <!--ko foreach: features -->
 
-    <div class="feature-margin" data-bind="visible: $root.features().length > 0">
+  <!-- ko if: $root.features().length > 0 -->
+    <div class="feature-margin" data-bind="foreach: features">
       <div data-bind="css: clientClass">
         <div class="row">
           <div class="col">
-              <h5>#<span data-bind="text: client_priority"></span>:
+              <h5><span data-bind="text: client"></span>:
                 <span data-bind="text: title"></span></h5>
           </div>
           <div class="col">
-              [<span data-bind="text: client"></span>]
+              [Priority: #<span data-bind="text: priority"></span>]
           </div>
         </div>
         <div class="row">
@@ -114,13 +114,14 @@
         </div>
       </div>
     </div>
+
     <!-- /ko -->
+    <!-- ko if: $root.features().length === 0 -->
 
-
-        <ul data-bind="visible: $root.features().length === 0">
+        <ul>
           <li><em>No features have been added yet.</em></li>
     </ul>
-
+    <!-- /ko -->
   </div>
 
     <!-- js -->
@@ -129,7 +130,6 @@
     <script src="{{ url_for('bower.static', filename='jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='knockout/dist/knockout.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='knockout-jqueryui/dist/knockout-jqueryui.js') }}"></script>
-
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

@@ -32,23 +32,25 @@ class Feature(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     client = db.Column(db.String(30), nullable=False)
-    client_priority = db.Column(db.Integer, nullable=False, unique=True)
+    priority = db.Column(db.Integer, nullable=False)
+    client_priority = db.Column(db.String(35), nullable=False, unique=True)
     target_date = db.Column(db.DateTime, nullable=False)
     product_area = db.Column(db.String(30), nullable=False)
 
-    def __init__(self, title, description, client, client_priority,
+    def __init__(self, title, description, client, priority, client_priority,
         target_date, product_area):
         self.title = title
         self.description = description
         self.client = client
+        self.priority = priority
         self.client_priority = client_priority
         self.target_date = target_date
         self.product_area = product_area
     def __repr__(self):
-        return "<Feature(title='%s', description='%s', client='%s', client_priority='%d', \
-                target_date='%s', product_area='%s')>" % (
-                            self.title, self.description, self.client, self.client_priority,
-                            self.target_date.isoformat(), self.product_area)
+        return "<Feature(title='%s', description='%s', client='%s', priority='%d', \
+                client_priority='%s', target_date='%s', product_area='%s')>" % (
+                            self.title, self.description, self.client, self.priority,
+                            self.client_priority, self.target_date.isoformat(), self.product_area)
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
@@ -87,13 +89,14 @@ def add_feature():
     date_array = [int(x) for x in json['target_date'].split('/')];
     python_date = date(date_array[2], date_array[0], date_array[1]);
     input = Feature(json['title'], json['description'], json['client'],
-            json['client_priority'], python_date, json['product_area'])
+            json['priority'], json['client_priority'], python_date, json['product_area'])
     db.session.add(input)
     db.session.commit()
     id = Feature.query.order_by(-Feature.id).first().id
     return jsonify({"title": json['title'],
                     "description": json['description'],
                     "client": json['client'],
+                    "priority": json['priority'],
                     "client_priority": json['client_priority'],
                     "target_date": json['target_date'],
                     "product_area": json['product_area'],

@@ -14,5 +14,6 @@ To run the app locally:
 5. flask initdb (if this is your first time)
 6. cd feature_requester
 7. bower install
-8. flask run
-9: go to localhost:5000 in the browser
+8. cd ..
+9. flask run
+10: go to localhost:5000 in the browser

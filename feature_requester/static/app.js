@@ -1,10 +1,10 @@
-Feature = function(title, description, client, client_priority,
+Feature = function(title, description, client, priority,
       target_date, product_area, id) {
   let self = this;
   self.title = ko.observable(title);
   self.description = ko.observable(description);
   self.client = ko.observable(client);
-  self.client_priority = ko.observable(client_priority);
+  self.priority = ko.observable(priority);
   self.target_date = ko.observable(target_date);
   self.product_area = ko.observable(product_area);
   self.id = id;
@@ -17,6 +17,10 @@ Feature = function(title, description, client, client_priority,
     else {
       return 'clienta';
     }
+  })
+  // This will let us enforce a uniqueness constraint.
+  self.client_priority = ko.pureComputed(function() {
+    return self.client() + "_" + self.priority();
   })
 }
 
@@ -42,7 +46,7 @@ FeatureViewModel = function() {
     console.log(json.features);
     var featureModels = $.map(json.features, function(item) {
       return new Feature(item.title, item.description, item.client,
-        item.client_priority, item.target_date, item.product_area, item.id);
+        item.priority, item.target_date, item.product_area, item.id);
     });
     return featureModels;
   }
@@ -59,15 +63,15 @@ FeatureViewModel = function() {
   }
 
   self.makeFeatureFromData = function() {
-    return new Feature({
-      title: data.title,
-      description: data.description,
-      client: data.client,
-      client_priority: data.client_priority,
-      target_date: data.target_date,
-      product_area: data.product_area,
-      id: data.id
-    });
+    return new Feature(
+      data.title,
+      data.description,
+      data.client,
+      data.priority,
+      data.target_date,
+      data.product_area,
+      data.id
+    );
   }
 
   self.addFeature = function() {
@@ -75,10 +79,12 @@ FeatureViewModel = function() {
       'title': self.newFeature.title(),
       'description': self.newFeature.description(),
       'client': self.newFeature.client(),
+      'priority': self.newFeature.priority(),
       'client_priority': self.newFeature.client_priority(),
       'target_date': self.newFeature.target_date(),
       'product_area': self.newFeature.product_area()
     };
+    console.log(data);
     return $.ajax({
       url: '/add',
       contentType: 'application/json',
@@ -87,7 +93,7 @@ FeatureViewModel = function() {
       dataType: 'json',
       success: (serverData) => {
         //console.log(serverData);
-        self.features.unshift(makeFeatureFromData(serverData));
+        self.features.unshift(self.makeFeatureFromData(serverData));
       },
       error: () => {
         return console.log("Failed to save");
