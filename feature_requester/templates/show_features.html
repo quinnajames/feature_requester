@@ -12,9 +12,9 @@
     </head>
       <body>
 
-        <div class="navbar navbar-inverse bg-inverse d-flex justify-content-end">
+        <div id="navbar" class="navbar navbar-inverse bg-inverse d-flex justify-content-end">
               <div class="mr-auto p-1 col-md-8">
-                <a href="#" class="navbar-brand">Feature Requester</a>
+                <a href="http://www.quinnjames.net" target="_blank" id="navtitle" class="navbar-brand">Feature Requester</a>
               </div>
               <div class="p-1 col-md-4">
                 <button class="btn btn-indigo btn-block"
@@ -22,64 +22,69 @@
               </div>
           </div>
 
-    <div class="container">
-
-
-
-
-      <!-- ko if: showForm -->
-      <div class="form">
-        <div class="row">
-            <div class="col-md-8">
-              <h3>Add New Feature</h3>
+                <!-- ko if: showForm -->
+    <div class="container" id="formcontainer">
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+          <div class="form">
+            <div class="row">
+                <div class="col-md-8">
+                  <h2 class="formheader">Add New Feature</h2>
+                </div>
             </div>
-        </div>
 
-          <form id="featureForm" data-bind="submit: addFeature, with: $root.formVM.newFeature">
-      <div class="row">
-          <div class="col">
-            <label for="title">Title:</label>
-              <input id="title" name="title" data-bind="value: title" class="form-control" type="text" size="30" name=title required="required"/>
+              <form id="featureForm" data-bind="submit: addFeature, with: $root.formVM.newFeature">
+          <div class="row">
+              <div class="col-md-6">
+                <label for="title">Title:</label>
+                  <input id="title" name="title" data-bind="value: title" class="form-control" type="text" size="30" name=title required="required"/>
+              </div>
+              <div class="col-md-3">
+                <label for="client">Client:</label>
+                <select id="client" name="client" data-bind="options: $root.formVM.clientOptions, value: client" class="form-control" required="required"></select>
+              </div>
+              <div class="col-md-3">
+                <label for="priority">Priority:</label>
+                  <input id="priority" name="priority" data-bind="value: priority" type="number" class="form-control" size="5" required="required"/>
+              </div>
           </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="client">Client:</label>
-          <select id="client" name="client" data-bind="options: $root.formVM.clientOptions, value: client" class="form-control" required="required"></select>
-        </div>
-        <div class="col">
-          <label for="target_date">Target date:</label>
-          <input type="text" id="target_date" name="target_date" data-bind="datepicker: {}, value: target_date" type="date" class="form-control" required="required"></select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-            <label for="description">Description:</label>
-              <textarea id="description" name="description" data-bind="value: description" class="form-control" size="300" required="required"></textarea>
+          <div class="row">
+            <div class="col">
+              <label for="target_date">Target date:</label>
+              <input type="text" id="target_date" name="target_date" data-bind="datepicker: {}, value: target_date" type="date" class="form-control" required="required"></select>
+            </div>
+            <div class="col">
+              <label for="product_area">Product Area:</label>
+              <select id="product_area" name="product_area" data-bind="options: $root.formVM.productOptions, value: product_area" class="form-control" required="required"></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+                <label for="description">Description:</label>
+                  <textarea id="description" name="description" data-bind="value: description" class="form-control" size="300" required="required"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+              <button type="submit" id="submitbutton" class="btn btn-dark btn-block">Submit</button>
+            </div>
+            <div class="col-md-3">
+            </div>
+          </div>
+
+              </form>
+            </div>
+          </div>
+          <div class="col-md-1">
+          </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col">
-          <label for="priority">Priority:</label>
-            <input id="priority" name="priority" data-bind="value: priority" type="number" class="form-control" size="5" required="required"/>
-        </div>
-        <div class="col">
-          <label for="product_area">Product Area:</label>
-          <select id="product_area" name="product_area" data-bind="options: $root.formVM.productOptions, value: product_area" class="form-control" required="required"></select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <button type="submit" class="btn btn-primary btn-block">Submit</button>
-        </div>
-      </div>
-
-          </form>
-        </div>
-        <!-- /ko -->
-      </div>
-
+      <!-- /ko -->
   <div class="container">
 
 

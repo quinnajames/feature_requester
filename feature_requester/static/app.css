@@ -1,10 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa|Lato|Noto+Serif|Raleway');
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #d1d1d1;
+}
+h2 {
+  font-family: 'Raleway', sans-serif;
+}
+h5 {
+  font-family: 'Noto Serif', serif;
+}
+button {
+  font-family: 'Raleway', sans-serif;
+}
 p.description {
   font-style: italic;
 }
 div.form {
-  border: 3px solid #bbb;
-  padding: 3px;
-  background-color: #eee;
+  padding: 11px 3px 9px 3px;
+  background-color: #414d60;
+  color: #fff;
+}
+h2.formheader {
+  padding: 7px 0px 7px 0px;
 }
 div.feature, div.clienta {
   border: 3px solid #03a678;
@@ -41,10 +58,31 @@ div.feature-margin {
 }
 .btn-indigo {
   color: #fff;
-  background-color: #6610f2;
-  border-color: #6610f2;
+  background-color: #414d60;
+  border-color: #414d60;
 }
-#navtitle {
+.btn-dark {
+  color: #fff;
+  background-color: #252937;
+  border-color: #f1f1f1;
 }
-#navbutton {
+#navbar {
+  background-color: #252937;
+}
+a#navtitle {
+  color: #4493c4;
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.8em;
+}
+button#submitbutton {
+  margin-top: 17px;
+  margin-bottom: 5px;
+  line-height: 33px;
+}
+div#formcontainer {
+  border: solid #252937;
+  border-width: 0px 3px 3px 3px;
+  padding: 3px;
+  background-color: #414d60;
+  color: #fff;
 }
