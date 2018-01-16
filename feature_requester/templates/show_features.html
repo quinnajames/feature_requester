@@ -84,7 +84,11 @@
 
 
   <!-- ko if: $root.features().length > 0 -->
-    <div class="feature-margin" data-bind="foreach: features">
+    <div class="feature-margin" data-bind="foreach: features().sort(function (a, b) {
+      return a.client() === b.client()
+      ? a.priority() > b.priority() ? 1 : -1
+      : a.client() > b.client() ? 1 : -1;
+    })">
       <div data-bind="css: clientClass">
         <div class="row">
           <div class="col">

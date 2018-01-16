@@ -129,8 +129,18 @@ FeatureViewModel = function() {
     }
   }
 
+  self.sortFeatures = function(array) {
+    return array.sort(function (a, b) {
+      return a.client() === b.client()
+      ? a.priority() > b.priority() ? 1 : -1
+      : a.client() > b.client() ? 1 : 1;
+    })
+  }
+
   // on load
   self.updateFeatures();
+  self.features = self.sortFeatures(self.features);
+  console.log(ko.toJSON(self.features));
 }
 
 let fvm = new FeatureViewModel();
