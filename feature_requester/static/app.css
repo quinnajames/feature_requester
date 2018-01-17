@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa|Lato|Noto+Serif|Raleway');
 body {
     font-family: 'Lato', sans-serif;
-    background-color: #d1d1d1;
+    background-color: #f7f0f5;
 }
 h2 {
   font-family: 'Raleway', sans-serif;
@@ -11,6 +11,20 @@ h5 {
 }
 button {
   font-family: 'Raleway', sans-serif;
+}
+.btn-indigo:hover {
+  background-color: #4493c4;
+  color: #fff;
+  border-color: #4493c4;
+}
+.btn-indigo:focus,.btn-indigo:active {
+  background-color: #4493c4;
+  color: #252937;
+  border-color: #4493c4;
+}
+.btn-dark:hover, .btn-dark:focus, .btn-dark:active {
+  background-color: #4493c4;
+  color: #fff;
 }
 p.description {
   font-style: italic;
