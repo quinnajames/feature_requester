@@ -15,7 +15,7 @@ Feature = function(title, description, client, priority,
       return css;
     }
     else {
-      return 'clienta';
+      return 'defaultclient';
     }
   })
   // This will let us enforce a uniqueness constraint.

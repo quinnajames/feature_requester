@@ -6,8 +6,9 @@ body {
 h2 {
   font-family: 'Raleway', sans-serif;
 }
-h5 {
-  font-family: 'Noto Serif', serif;
+h4 {
+  font-family: 'Lato', serif;
+  color: #252937;
 }
 button {
   font-family: 'Raleway', sans-serif;
@@ -37,20 +38,19 @@ div.form {
 h2.formheader {
   padding: 7px 0px 7px 0px;
 }
-div.feature, div.clienta {
-  border: 3px solid #03a678;
-  padding: 3px;
+div.defaultclient, div.clienta {
   background-color: #2abb9b;
 }
 div.clientb {
-  border: 3px solid #5D3F6A;
-  padding: 3px;
-  background-color: #89729E;
+  background-color: #89729E
 }
 div.clientc {
-  border: 3px solid #F9690E;
-  padding: 3px;
   background-color: #E29C45;
+}
+div.feature {
+  margin-top: 10px;
+  background-color: #f1f1f1;
+  border: 3px solid #252937;
 }
 div.feature-margin {
   background-color: #f1f1f1;
@@ -65,6 +65,7 @@ div.feature-margin {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
 
 
 .navbar {
@@ -99,4 +100,28 @@ div#formcontainer {
   padding: 3px;
   background-color: #414d60;
   color: #fff;
+}
+div#featurecontainer {
+  border: solid #252937;
+  border-width: 0px 3px 3px 3px;
+  padding: 3px;
+  background-color: #414d60;
+  color: #fff;
+}
+.flex-grid {
+  display: flex;
+}
+.col {
+  flex: 1;
+}
+@media (max-width: 400px) {
+  .flex-grid {
+    display: block;
+  }
+}
+.flex-grid .flex-wide-col {
+  width: 50%;
+}
+.flex-grid .flex-tiny-col {
+  width: 5%;
 }

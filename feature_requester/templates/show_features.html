@@ -22,9 +22,9 @@
               </div>
           </div>
 
+    <div class="container">
                 <!-- ko if: showForm -->
-    <div class="container" id="formcontainer">
-      <div class="row">
+      <div class="row" id="formcontainer">
         <div class="col-md-1">
         </div>
         <div class="col-md-10">
@@ -82,43 +82,58 @@
           <div class="col-md-1">
           </div>
         </div>
-      </div>
 
       <!-- /ko -->
-  <div class="container">
-
 
   <!-- ko if: $root.features().length > 0 -->
-    <div class="feature-margin" data-bind="foreach: features().sort(function (a, b) {
-      return a.client() === b.client()
-      ? a.priority() > b.priority() ? 1 : -1
-      : a.client() > b.client() ? 1 : -1;
-    })">
-      <div data-bind="css: clientClass">
+  <div data-bind="foreach: features().sort(function (a, b) {
+    return a.client() === b.client()
+    ? a.priority() > b.priority() ? 1 : -1
+    : a.client() > b.client() ? 1 : -1;
+  })">
+      <div class="feature">
         <div class="row">
-          <div class="col">
-              <h5><span data-bind="text: client"></span>:
-                <span data-bind="text: title"></span></h5>
+
+                                  <div class="col-md-1" data-bind="css: clientClass">
+                                  </div>
+          <div class="col-md-6">
+
+            <div class="row">
+              <div class="col">
+              <h4><span data-bind="text: client"></span>:
+                <span data-bind="text: title"></span></h4>
+              </div>
+            </div>
+
+              <div class="row">
+                <div class="col">
+                  <p class="description" data-bind="text: description"></p>
+                </div>
+              </div>
+
           </div>
-          <div class="col">
-              [Priority: #<span data-bind="text: priority"></span>]
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-              Product area: <span data-bind="text: product_area"></span>
-          </div>
-          <div class="col">
+
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col">
+              Client Priority: #<span data-bind="text: priority"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                Product area: <span data-bind="text: product_area"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
               <p>Target date: <span data-bind="text: target_date"></span></p>
+              </div>
+            </div>
           </div>
+
         </div>
-        <div class="row">
-          <div class="col">
-            <p class="description" data-bind="text: description"></p>
-          </div>
-        </div>
-      </div>
     </div>
+  </div>
 
     <!-- /ko -->
     <!-- ko if: $root.features().length === 0 -->
@@ -127,8 +142,7 @@
           <li><em>No features have been added yet.</em></li>
     </ul>
     <!-- /ko -->
-  </div>
-
+</div>
     <!-- js -->
     <script src="{{ url_for('bower.static', filename='jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='jquery-ui/jquery-ui.min.js') }}"></script>
