@@ -10,13 +10,12 @@ To run the app locally:
 3. [recommended] python3 -m venv venv
 4. [if 3] . venv/bin/activate
 5. pip install -e .
-6. pip install flask-bower
-7. export FLASK_APP=feature_requester
+6. export FLASK_APP=feature_requester
   [In Windows: set FLASK_APP=feature_requester]
-8. flask initdb (if this is your first time)
-9. sudo npm install -g bower
-10. cd feature_requester
-11. bower install
-12. cd ..
-13. flask run
-14. go to localhost:5000 in the browser
+7. flask initdb (if this is your first time)
+8. sudo npm install -g bower
+9. cd feature_requester
+10. bower install
+11. cd ..
+12. flask run
+13. go to localhost:5000 in the browser

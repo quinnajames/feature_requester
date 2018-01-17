@@ -16,7 +16,7 @@ setup(
     url = "http://www.quinnjames.net",
     packages=['feature_requester', 'tests'],
     install_requires=[
-        'flask', 'flask_sqlalchemy'
+        'flask', 'flask_sqlalchemy', 'flask_bower', 'jasmine'
     ],
     setup_requires=[
         'pytest_runner',

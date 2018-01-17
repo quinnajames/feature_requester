@@ -33,7 +33,7 @@ FormViewModel = function() {
   self.populateNewFeature = function() {
     // need like a global or subscribable for the default priority
     let newFeatureObj = new Feature("", "", "Client A", 99,
-      "01/24/2018", "1", null);
+      "01/24/2018", "Policies", null);
     newFeatureObj.title.extend({maxLength: 100});
     newFeatureObj.description.extend({maxLength: 500});
     newFeatureObj.priority.extend({digit: true}); // This accepts all integers.
