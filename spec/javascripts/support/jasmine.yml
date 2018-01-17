@@ -17,7 +17,7 @@ src_files:
   - "bower_components/bootstrap/dist/js/bootstrap.min.js"
   - "bower_components/knockout/dist/knockout.js"
   - "bower_components/knockout-jqueryui/dist/knockout-jqueryui.js"
-  - "bower_components/'knockout-validation/dist/knockout.validation.min.js"
+  - "bower_components/knockout-validation/dist/knockout.validation.min.js"
   - "static/*.js"
 
 # stylesheets
