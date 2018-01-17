@@ -88,11 +88,11 @@ def add_feature():
     json = request.get_json();
     date_array = [int(x) for x in json['target_date'].split('/')];
     python_date = date(date_array[2], date_array[0], date_array[1]);
-    input = Feature(json['title'], json['description'], json['client'],
+    json_input = Feature(json['title'], json['description'], json['client'],
             json['priority'], json['client_priority'], python_date, json['product_area'])
-    db.session.add(input)
+    db.session.add(json_input)
     db.session.commit()
-    id = Feature.query.order_by(-Feature.id).first().id
+    feature_id = Feature.query.order_by(-Feature.id).first().id
     return jsonify({"title": json['title'],
                     "description": json['description'],
                     "client": json['client'],
@@ -100,4 +100,4 @@ def add_feature():
                     "client_priority": json['client_priority'],
                     "target_date": json['target_date'],
                     "product_area": json['product_area'],
-                    "id": id})
+                    "id": feature_id})
