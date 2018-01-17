@@ -3,6 +3,16 @@ body {
     font-family: 'Lato', sans-serif;
     background-color: #f7f0f5;
 }
+
+.row {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.col {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  flex: 1;
+}
 h2 {
   font-family: 'Raleway', sans-serif;
 }
@@ -10,6 +20,31 @@ h4 {
   font-family: 'Lato', serif;
   color: #252937;
 }
+.navbar {
+  margin-bottom: 0;
+}
+#navbar {
+  background-color: #252937;
+}
+a#navtitle {
+  color: #f1f1f1;
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.8em;
+}
+a#navtitle:hover, a#navtitle:ative {
+  color: #4493c4;
+}
+.btn-indigo {
+  color: #fff;
+  background-color: #414d60;
+  border-color: #414d60;
+}
+.btn-dark {
+  color: #fff;
+  background-color: #252937;
+  border-color: #f1f1f1;
+}
+
 button {
   font-family: 'Raleway', sans-serif;
 }
@@ -27,9 +62,7 @@ button {
   background-color: #4493c4;
   color: #fff;
 }
-p.description {
-  font-style: italic;
-}
+
 div.form {
   padding: 11px 3px 9px 3px;
   background-color: #414d60;
@@ -38,15 +71,8 @@ div.form {
 h2.formheader {
   padding: 7px 0px 7px 0px;
 }
-div.defaultclient, div.clienta {
-  background-color: #2abb9b;
-}
-div.clientb {
-  background-color: #89729E
-}
-div.clientc {
-  background-color: #E29C45;
-}
+
+
 div.feature {
   margin-top: 10px;
   background-color: #f1f1f1;
@@ -57,38 +83,22 @@ div.feature-margin {
   padding: 8px;
   visibility: none !important;
 }
-.row {
-    padding-left: 5px;
-    padding-right: 5px;
+div.defaultclient, div.clienta {
+  background-color: #2abb9b;
 }
-.col {
-  padding-top: 5px;
-  padding-bottom: 5px;
+div.clientb {
+  background-color: #89729E
+}
+div.clientc {
+  background-color: #E29C45;
+}
+p.description {
+  font-style: italic;
 }
 
 
 
-.navbar {
-  margin-bottom: 0;
-}
-.btn-indigo {
-  color: #fff;
-  background-color: #414d60;
-  border-color: #414d60;
-}
-.btn-dark {
-  color: #fff;
-  background-color: #252937;
-  border-color: #f1f1f1;
-}
-#navbar {
-  background-color: #252937;
-}
-a#navtitle {
-  color: #4493c4;
-  font-family: 'Comfortaa', cursive;
-  font-size: 1.8em;
-}
+
 button#submitbutton {
   margin-top: 17px;
   margin-bottom: 5px;
@@ -110,18 +120,19 @@ div#featurecontainer {
 }
 .flex-grid {
   display: flex;
+  justify-content: space-between;
 }
-.col {
-  flex: 1;
+.small {
+  flex-grow: 1;
+}
+.med {
+  flex-grow: 8;
+}
+.large {
+  flex-grow: 16;
 }
 @media (max-width: 400px) {
-  .flex-grid {
-    display: block;
-  }
-}
-.flex-grid .flex-wide-col {
-  width: 50%;
-}
-.flex-grid .flex-tiny-col {
-  width: 5%;
+    .flex-grid {
+      display: block;
+    }
 }
