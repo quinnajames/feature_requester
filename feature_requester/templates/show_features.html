@@ -22,6 +22,7 @@
               </div>
           </div>
 
+
     <div class="container">
                 <!-- ko if: showForm -->
       <div class="row" id="formcontainer">
@@ -84,6 +85,15 @@
         </div>
 
       <!-- /ko -->
+
+</div>
+      <div class="jumbotron">
+        <h5>You have <strong data-bind="text: $root.features().length"></strong> feature requests across all clients.</h5>
+          <!-- ko ifnot: showForm -->
+        <p data-bind="display: !showForm"><em>To add a feature request, click the "Add Feature" button above.</em></p>
+          <!-- /ko -->
+      </div>
+  <div class="container">
 
   <!-- ko if: $root.features().length > 0 -->
   <div data-bind="foreach: features().sort(function (a, b) {
