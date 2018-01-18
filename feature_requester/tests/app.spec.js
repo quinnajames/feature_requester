@@ -1,15 +1,9 @@
-describe('Hello world', function () {
-  it('says hello', function () {
-    expect('Hello world!').toEqual('Hello world!');
-  });
-});
-
-describe("Given Feature implementation", () => {
+describe("Given Feature model implementation", () => {
   beforeEach(() => {
     this.testFeature = new Feature("Title", "Description", "Client A", 99,
       "01/24/2018", "Policies", null);
   });
-  it("when creating a new entry, it should pass on correct parameters", () => {
+  it("should pass on correct parameters when creating a new entry", () => {
     expect(this.testFeature.id).not.toBeTruthy();
     expect(this.testFeature.title()).toEqual("Title");
     expect(this.testFeature.description()).toEqual("Description");
@@ -29,34 +23,6 @@ describe("Given Feature implementation", () => {
     this.testFeature = null;
   });
 });
-
-
-describe("Given Feature implementation", () => {
-  beforeEach(() => {
-    this.testFeature = new Feature("Title", "Description", "Client A", 99,
-      "01/24/2018", "Policies", null);
-  });
-  it("when creating a new entry, it should pass on correct parameters", () => {
-    expect(this.testFeature.id).not.toBeTruthy();
-    expect(this.testFeature.title()).toEqual("Title");
-    expect(this.testFeature.description()).toEqual("Description");
-    expect(this.testFeature.client()).toEqual("Client A");
-    expect(this.testFeature.priority()).toEqual(99);
-    expect(this.testFeature.target_date()).toEqual("01/24/2018");
-    expect(this.testFeature.product_area()).toEqual("Policies");
-
-  });
-  it("should create client_priority as combination of client and priority", () => {
-    expect(this.testFeature.client_priority()).toEqual("Client A_99");
-  });
-  it("should create client CSS class", () => {
-    expect(this.testFeature.clientClass()).toEqual("clienta");
-  })
-  afterEach(() => {
-    this.testFeature = null;
-  });
-});
-
 
 describe("Given FormViewModel implementation", () => {
   beforeEach(() => {
@@ -113,6 +79,73 @@ describe("Given FormViewModel implementation", () => {
   });
 
   afterEach(() => {
-    this.testFeature = null;
+    this.testFormVM = null;
+  });
+});
+
+
+describe("Given FeatureViewModel implementation", () => {
+  beforeEach(() => {
+    this.featureVM = new FeatureViewModel();
+  });
+  it("should start by not showing the form", () => {
+    expect(this.featureVM.showForm()).toEqual(false);
+  });
+  describe("Given toggleForm implementation", () => {
+    it("should toggle the form from false to true", () => {
+      this.featureVM.showForm(false);
+      this.featureVM.toggleForm();
+      expect(this.featureVM.showForm()).toBe(true);
+    });
+    it("should toggle the form from true to false", () => {
+      this.featureVM.showForm(true);
+      this.featureVM.toggleForm();
+      expect(this.featureVM.showForm()).toBe(false);
+    });
+  })
+  describe("Given mapJSONToFeatures implementation", () => {
+    beforeEach(() => {
+          this.testFeatureJSON = JSON.parse(JSON.stringify({
+      "features": [
+        {
+          "client": "Client B",
+          "client_priority": "Client B_1",
+          "description": "bluh",
+          "id": 2,
+          "priority": 1,
+          "product_area": "Policies",
+          "target_date": "Wed, 24 Jan 2018 00:00:00 GMT",
+          "title": "Test another feature"
+        },
+        {
+          "client": "Client A",
+          "client_priority": "Client A_1",
+          "description": "This is important.",
+          "id": 1,
+          "priority": 1,
+          "product_area": "Policies",
+          "target_date": "Thu, 25 Jan 2018 00:00:00 GMT",
+          "title": "New feature"
+        }
+      ]
+    }));
+    console.log(this.testFeatureJSON);
+      this.mappedFeature = this.featureVM.mapJSONToFeatures(this.testFeatureJSON)[0];
+      console.log("!!!!!")
+// /      console.log(this.mappedFeature);
+    });
+    it("should return a feature", () => {
+      expect(this.mappedFeature instanceof Feature).toBe(true);
+      expect(this.mappedFeature instanceof Array).toBe(false);
+    })
+    it("should return a feature with correct priority", () => {
+      expect(this.mappedFeature.priority()).toEqual(1);
+    });
+    it("should return a feature with correct client_priority", () => {
+      expect(this.mappedFeature.client_priority()).toEqual("Client B_1");
+    });
+  })
+  afterEach(() => {
+    this.featureVM = null;
   });
 });

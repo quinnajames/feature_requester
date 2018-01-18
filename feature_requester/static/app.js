@@ -79,12 +79,16 @@ FeatureViewModel = function() {
   self.mapJSONToFeatures = function(json) {
     console.log(`json: ${json.features}`);
     console.log(json.features);
-    var featureModels = $.map(json.features, function(item) {
+    let featureModels = $.map(json.features, function(item) {
       return new Feature(item.title, item.description, item.client,
         item.priority, item.target_date, item.product_area, item.id);
     });
+    // can convert date back to display date here
+    console.log("featureModels:")
+    console.log(featureModels);
     return featureModels;
   }
+
   self.updateFeatures = function() {
     $.getJSON('/features', (input) => {
       self.features(self.mapJSONToFeatures(input));
@@ -149,7 +153,6 @@ FeatureViewModel = function() {
   // on load
   self.updateFeatures();
   self.features = self.sortFeatures(self.features);
-  console.log(ko.toJSON(self.features));
 }
 
 let fvm = new FeatureViewModel();
