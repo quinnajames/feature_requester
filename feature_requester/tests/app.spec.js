@@ -242,17 +242,21 @@ describe("Given FeatureViewModel implementation", () => {
     })
 
     // todo
-    xdescribe("given addFeature implementation", () => {
+    describe("given addFeature implementation", () => {
       describe("when getNewFeature returns a valid feature", () => {
         beforeEach(() => {
           this.testFeatureAF = new Feature("Title", "Description", "Client A", 99,
                         "01/24/2018", "Policies", null);
           this.featureVM.getNewFeature = jasmine.createSpy("getNewFeature spy")
             .and.callFake(function (form) { return this.testFeatureAF });
-          spyOn(this.featureVM, 'requestAddFeature');
+          this.featureVM.requestAddFeature = jasmine.createSpy("requestAddFeature spy")
+          //spyOn(this.featureVM, 'requestAddFeature');
           this.featureVM.addFeature();
         });
-        it('should call requestAddFeature with the test feature', () => {
+        it('should call getNewFeature', () => {
+          expect(this.featureVM.getNewFeature).toHaveBeenCalled();
+        })
+        xit('should call requestAddFeature with the test feature', () => {
           expect(this.featureVM.requestAddFeature).toHaveBeenCalledWith(this.testFeatureAF);
         });
       })
