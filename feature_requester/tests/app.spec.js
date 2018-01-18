@@ -103,6 +103,30 @@ describe("Given FeatureViewModel implementation", () => {
       expect(this.featureVM.showForm()).toBe(false);
     });
   })
+
+
+    describe("given addOnSuccess implementation", () => {
+      beforeEach(() => {
+        this.addData = JSON.parse(JSON.stringify(TestResponses.addFeature.success.responseText));
+        this.featureVM.features = ko.observableArray([]);
+        spyOn(this.featureVM, 'makeFeatureFromServerData').and.callThrough();
+        this.featureVM.addOnSuccess(addData);
+      })
+      it('should call makeFeatureFromServerData', () => {
+        expect(this.featureVM.makeFeatureFromServerData).toHaveBeenCalledWith(addData);
+      })
+      it('should add a feature to the features array', () => {
+        expect(this.featureVM.features().length).toEqual(1);
+        expect(this.featureVM.features()[0] instanceof Feature).toBeTruthy();
+      })
+      xit('should give the new feature the correct title', () => {
+        expect(this.featureVM.features()[0].title()).toEqual('Feature');
+      })
+      xit('should give the new feature the correct client_priority', () => {
+        expect(this.featureVM.features()[0].client_priority()).toEqual('Client A_13');
+      })
+    })
+
   describe("Given mapJSONToFeatures implementation", () => {
     beforeEach(() => {
           this.testFeatureJSON = JSON.parse(JSON.stringify({
@@ -170,6 +194,36 @@ describe("Given FeatureViewModel implementation", () => {
       expect(this.serverFeature.client_priority()).not.toEqual("Client A_1");
     });
   })
+
+
+    describe("Given requestAddFeature implementation", () => {
+      beforeEach(() => {
+        this.testRequestFeature = new Feature("Feature", "stuffn", "Client A", 13,
+            "01/24/2018", "Policies", null); // not testing id
+      })
+      it('should call the success function', () => {
+        this.featureVM.requestAddFeature(this.testRequestFeature);
+        spyOn($, 'ajax').and.callFake(function(e) {
+          return $.Deferred().resolve(TestResponses.addFeature.success).promise();
+        });
+        this.featureVM.addOnSuccess = jasmine.createSpy("addOnSuccess spy").and.callThrough();
+        this.featureVM.requestAddFeature(this.testRequestFeature);
+        expect(this.featureVM.addOnSuccess).toHaveBeenCalledWith(TestResponses.addFeature.success);
+      })
+    })
+
+
+
+    // todo
+    xdescribe("given addFeature implementation", () => {
+
+    })
+
+    xdescribe("given sortFeatures implementation", () => {
+
+    })
+
+
   afterEach(() => {
     this.featureVM = null;
   });

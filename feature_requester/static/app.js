@@ -108,13 +108,14 @@ FeatureViewModel = function() {
 
   // Combined
 
-  self.addFeature = function() {
+
+  self.getNewFeature = function() {
     if (!self.formVM.isValidFeature(self.formVM.newFeature)) {
       self.formVM.newFeature.errors.showAllMessages();
-      return console.log("Form invalid");
+      return false;
     }
     else {
-      let data = {
+      return {
         'title': self.formVM.newFeature.title(),
         'description': self.formVM.newFeature.description(),
         'client': self.formVM.newFeature.client(),
@@ -123,23 +124,39 @@ FeatureViewModel = function() {
         'target_date': self.formVM.newFeature.target_date(),
         'product_area': self.formVM.newFeature.product_area()
       };
-      console.log(data);
-      return $.ajax({
-        url: '/add',
-        contentType: 'application/json',
-        type: 'POST',
-        data: JSON.stringify(data),
-        dataType: 'json',
-        success: (serverData) => {
-          //console.log(serverData);
-          self.features.unshift(self.makeFeatureFromServerData(serverData));
-        },
-        error: () => {
-          return console.log("Failed to save");
-        }
-      });
     }
   }
+
+
+
+  self.addOnSuccess = function(serverData) {
+    console.log(serverData);
+    self.features.unshift(self.makeFeatureFromServerData(serverData));
+  }
+
+    self.requestAddFeature = function(data) {
+        return $.ajax({
+          url: '/add',
+          contentType: 'application/json',
+          type: 'POST',
+          data: JSON.stringify(data),
+          dataType: 'json'})
+          .done((serverData) => self.addOnSuccess(serverData))
+          .fail(() => console.log("Failed to save"))
+      }
+
+    self.addFeature = function() {
+      let gnf = self.getNewFeature();
+      if (!gnf) {
+        return console.log("Form invalid");
+      }
+      else {
+        console.log(gnf);
+        self.requestAddFeature(gnf);
+      }
+    }
+
+
 
   self.sortFeatures = function(array) {
     return array.sort(function (a, b) {
