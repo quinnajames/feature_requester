@@ -30,20 +30,29 @@ FormViewModel = function() {
   self.productOptions = ['Policies', 'Billing', 'Claims', 'Reports'];
 
 
+
+  self.extendFeature = function(feature) {
+    feature.title.extend({maxLength: 100});
+    feature.description.extend({maxLength: 500});
+    feature.priority.extend({digit: true}); // This accepts all integers.
+    return feature;
+  }
+
+
   self.populateNewFeature = function() {
     // need like a global or subscribable for the default priority
     let newFeatureObj = new Feature("", "", "Client A", 99,
       "01/24/2018", "Policies", null);
-    newFeatureObj.title.extend({maxLength: 100});
-    newFeatureObj.description.extend({maxLength: 500});
-    newFeatureObj.priority.extend({digit: true}); // This accepts all integers.
-    return newFeatureObj;
+      return self.extendFeature(newFeatureObj);
   }
+
   self.newFeature = self.populateNewFeature();
 
   self.newFeature.errors = ko.validation.group(self.newFeature);
-  self.newFeature.isValid = function() {
-    return self.newFeature.errors().length === 0;
+
+  self.isValidFeature = function(feature) {
+    feature.errors = ko.validation.group(feature);
+    return feature.errors().length === 0;
   }
   console.log(self.newFeature);
 }
@@ -97,7 +106,7 @@ FeatureViewModel = function() {
   }
 
   self.addFeature = function() {
-    if (!self.formVM.newFeature.isValid()) {
+    if (!self.formVM.isValidFeature(newFeature)) {
       self.formVM.newFeature.errors.showAllMessages();
       return console.log("Form invalid");
     }
