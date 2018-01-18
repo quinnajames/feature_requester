@@ -107,7 +107,7 @@ describe("Given FeatureViewModel implementation", () => {
 
     describe("given addOnSuccess implementation", () => {
       beforeEach(() => {
-        this.addData = JSON.parse(JSON.stringify(TestResponses.addFeature.success.responseText));
+        this.addData = JSON.parse(TestResponses.addFeature.success.responseText);
         this.featureVM.features = ko.observableArray([]);
         spyOn(this.featureVM, 'makeFeatureFromServerData').and.callThrough();
         this.featureVM.addOnSuccess(addData);
@@ -119,10 +119,10 @@ describe("Given FeatureViewModel implementation", () => {
         expect(this.featureVM.features().length).toEqual(1);
         expect(this.featureVM.features()[0] instanceof Feature).toBeTruthy();
       })
-      xit('should give the new feature the correct title', () => {
+      it('should give the new feature the correct title', () => {
         expect(this.featureVM.features()[0].title()).toEqual('Feature');
       })
-      xit('should give the new feature the correct client_priority', () => {
+      it('should give the new feature the correct client_priority', () => {
         expect(this.featureVM.features()[0].client_priority()).toEqual('Client A_13');
       })
     })
@@ -168,16 +168,7 @@ describe("Given FeatureViewModel implementation", () => {
   })
   describe("Given makeFeatureFromServerData implementation", () => {
     beforeEach(() => {
-      this.serverData = JSON.parse(JSON.stringify({
-                "client": "Client A",
-                "client_priority": "Client A_1",
-                "description": "This is important.",
-                "id": 1,
-                "priority": 2,
-                "product_area": "Policies",
-                "target_date": "Thu, 25 Jan 2018 00:00:00 GMT",
-                "title": "New feature"
-              }));
+      this.serverData = JSON.parse(TestResponses.addFeature.success.responseText);
       this.serverFeature = this.featureVM.makeFeatureFromServerData(this.serverData);
     });
     it("should return a feature", () => {
@@ -185,20 +176,20 @@ describe("Given FeatureViewModel implementation", () => {
         expect(this.serverFeature instanceof Array).toBe(false);
     });
     it("should return a feature with correct priority", () => {
-      expect(this.serverFeature.priority()).toEqual(2);
+      expect(this.serverFeature.priority()).toEqual(13);
     });
     it("should return a feature with correct client_priority", () => {
-      expect(this.serverFeature.client_priority()).toEqual("Client A_2");
+      expect(this.serverFeature.client_priority()).toEqual("Client A_13");
     });
     it("should ignore what the server says about client_priority", () => {
-      expect(this.serverFeature.client_priority()).not.toEqual("Client A_1");
+      expect(this.serverFeature.client_priority()).not.toEqual("Client A_7");
     });
   })
 
 
     describe("Given requestAddFeature implementation", () => {
       beforeEach(() => {
-        this.testRequestFeature = new Feature("Feature", "stuffn", "Client A", 13,
+        this.testRequestFeature = new Feature("Feature", "stuff", "Client A", 13,
             "01/24/2018", "Policies", null); // not testing id
       })
       it('should call the success function', () => {
@@ -213,10 +204,58 @@ describe("Given FeatureViewModel implementation", () => {
     })
 
 
+    describe("Given getNewFeature implementation", () => {
+      beforeEach(() => {
+        // mock VM
+        this.mockFormVM = new (function() {
+          var self = this;
+          self.newFeature = new Feature("Feature", "stuff", "Client A", 13,
+              "01/24/2018", "Policies", null);
+          self.newFeature.errors = {
+            showAllMessages: function() {
+              return "Did not validate";
+            }
+          }
+          self.isValidFeature = function (feature) {
+            return true;
+          }
+        })();
+        this.gnfReturn = this.featureVM.getNewFeature(this.mockFormVM);
+      })
+      it('should return an object when feature validates', () => {
+        expect(this.gnfReturn instanceof Object).toBe(true);
+      });
+      it('should have correct static title', () => {
+        // Function unwraps these attributes; they're not ko observables anymore.
+        expect(this.gnfReturn.title).toEqual('Feature');
+      })
+      it('should have correct calculated client_priority', () => {
+        expect(this.gnfReturn.client_priority).toEqual('Client A_13');
+      })
+       it('should return FALSE when feature does not validate', () => {
+        this.mockFormVM.isValidFeature = function(feature) {
+          return false;
+        }
+        this.gnfReturnFalse = this.featureVM.getNewFeature(this.mockFormVM);
+        expect(this.gnfReturnFalse).toEqual(false);
+      })
+    })
 
     // todo
     xdescribe("given addFeature implementation", () => {
-
+      describe("when getNewFeature returns a valid feature", () => {
+        beforeEach(() => {
+          this.testFeatureAF = new Feature("Title", "Description", "Client A", 99,
+                        "01/24/2018", "Policies", null);
+          this.featureVM.getNewFeature = jasmine.createSpy("getNewFeature spy")
+            .and.callFake(function (form) { return this.testFeatureAF });
+          spyOn(this.featureVM, 'requestAddFeature');
+          this.featureVM.addFeature();
+        });
+        it('should call requestAddFeature with the test feature', () => {
+          expect(this.featureVM.requestAddFeature).toHaveBeenCalledWith(this.testFeatureAF);
+        });
+      })
     })
 
     xdescribe("given sortFeatures implementation", () => {

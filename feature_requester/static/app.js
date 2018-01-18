@@ -109,20 +109,20 @@ FeatureViewModel = function() {
   // Combined
 
 
-  self.getNewFeature = function() {
-    if (!self.formVM.isValidFeature(self.formVM.newFeature)) {
-      self.formVM.newFeature.errors.showAllMessages();
+  self.getNewFeature = function(form) {
+    if (!form.isValidFeature(form.newFeature)) {
+      form.newFeature.errors.showAllMessages();
       return false;
     }
     else {
       return {
-        'title': self.formVM.newFeature.title(),
-        'description': self.formVM.newFeature.description(),
-        'client': self.formVM.newFeature.client(),
-        'priority': self.formVM.newFeature.priority(),
-        'client_priority': self.formVM.newFeature.client_priority(),
-        'target_date': self.formVM.newFeature.target_date(),
-        'product_area': self.formVM.newFeature.product_area()
+        'title': form.newFeature.title(),
+        'description': form.newFeature.description(),
+        'client': form.newFeature.client(),
+        'priority': form.newFeature.priority(),
+        'client_priority': form.newFeature.client_priority(),
+        'target_date': form.newFeature.target_date(),
+        'product_area':form.newFeature.product_area()
       };
     }
   }
@@ -146,7 +146,7 @@ FeatureViewModel = function() {
       }
 
     self.addFeature = function() {
-      let gnf = self.getNewFeature();
+      let gnf = self.getNewFeature(self.formVM);
       if (!gnf) {
         return console.log("Form invalid");
       }

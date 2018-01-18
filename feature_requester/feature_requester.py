@@ -73,7 +73,6 @@ def secretkey_command():
 def show_features():
     features = Feature.query.order_by(-Feature.id).all()
     for row in features:
-        print(row.target_date)
         row.target_date = str(row.target_date.month) + '/' + str(row.target_date.day) + '/' + str(row.target_date.year)
     return render_template('show_features.html', features=features)
 
