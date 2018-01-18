@@ -129,10 +129,7 @@ describe("Given FeatureViewModel implementation", () => {
         }
       ]
     }));
-    console.log(this.testFeatureJSON);
       this.mappedFeature = this.featureVM.mapJSONToFeatures(this.testFeatureJSON)[0];
-      console.log("!!!!!")
-// /      console.log(this.mappedFeature);
     });
     it("should return a feature", () => {
       expect(this.mappedFeature instanceof Feature).toBe(true);
@@ -143,6 +140,34 @@ describe("Given FeatureViewModel implementation", () => {
     });
     it("should return a feature with correct client_priority", () => {
       expect(this.mappedFeature.client_priority()).toEqual("Client B_1");
+    });
+  })
+  describe("Given makeFeatureFromServerData implementation", () => {
+    beforeEach(() => {
+      this.serverData = JSON.parse(JSON.stringify({
+                "client": "Client A",
+                "client_priority": "Client A_1",
+                "description": "This is important.",
+                "id": 1,
+                "priority": 2,
+                "product_area": "Policies",
+                "target_date": "Thu, 25 Jan 2018 00:00:00 GMT",
+                "title": "New feature"
+              }));
+      this.serverFeature = this.featureVM.makeFeatureFromServerData(this.serverData);
+    });
+    it("should return a feature", () => {
+        expect(this.serverFeature instanceof Feature).toBe(true);
+        expect(this.serverFeature instanceof Array).toBe(false);
+    });
+    it("should return a feature with correct priority", () => {
+      expect(this.serverFeature.priority()).toEqual(2);
+    });
+    it("should return a feature with correct client_priority", () => {
+      expect(this.serverFeature.client_priority()).toEqual("Client A_2");
+    });
+    it("should ignore what the server says about client_priority", () => {
+      expect(this.serverFeature.client_priority()).not.toEqual("Client A_1");
     });
   })
   afterEach(() => {

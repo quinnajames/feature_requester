@@ -74,14 +74,25 @@ FeatureViewModel = function() {
         self.showForm(!self.showForm());
       }
 
+      self.makeFeatureFromServerData = function(data) {
+        return new Feature(
+          data.title,
+          data.description,
+          data.client,
+          data.priority,
+          data.target_date,
+          data.product_area,
+          data.id
+        );
+      }
+
 
   // Display stuff
   self.mapJSONToFeatures = function(json) {
     console.log(`json: ${json.features}`);
     console.log(json.features);
     let featureModels = $.map(json.features, function(item) {
-      return new Feature(item.title, item.description, item.client,
-        item.priority, item.target_date, item.product_area, item.id);
+      return self.makeFeatureFromServerData(item);
     });
     // can convert date back to display date here
     console.log("featureModels:")
@@ -97,20 +108,8 @@ FeatureViewModel = function() {
 
   // Combined
 
-  self.makeFeatureFromData = function(data) {
-    return new Feature(
-      data.title,
-      data.description,
-      data.client,
-      data.priority,
-      data.target_date,
-      data.product_area,
-      data.id
-    );
-  }
-
   self.addFeature = function() {
-    if (!self.formVM.isValidFeature(newFeature)) {
+    if (!self.formVM.isValidFeature(self.formVM.newFeature)) {
       self.formVM.newFeature.errors.showAllMessages();
       return console.log("Form invalid");
     }
@@ -133,7 +132,7 @@ FeatureViewModel = function() {
         dataType: 'json',
         success: (serverData) => {
           //console.log(serverData);
-          self.features.unshift(self.makeFeatureFromData(serverData));
+          self.features.unshift(self.makeFeatureFromServerData(serverData));
         },
         error: () => {
           return console.log("Failed to save");
