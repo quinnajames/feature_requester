@@ -2,7 +2,8 @@ A program that allows a business client to create project feature requests.
 
 Current project status:
 Layout is substantially done, as is DB design and adding new requests.
-Still needs delete/update features, general cleanup, and testing/deployment preparation.
+Unit tests are caught up.
+Still needs delete/update features, general cleanup, code coverage, deployment preparation.
 
 To run the app locally:
 1. Clone the repo
