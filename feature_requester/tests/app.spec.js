@@ -247,17 +247,29 @@ describe("Given FeatureViewModel implementation", () => {
         beforeEach(() => {
           this.testFeatureAF = new Feature("Title", "Description", "Client A", 99,
                         "01/24/2018", "Policies", null);
-          this.featureVM.getNewFeature = jasmine.createSpy("getNewFeature spy")
-            .and.callFake(function (form) { return this.testFeatureAF });
-          this.featureVM.requestAddFeature = jasmine.createSpy("requestAddFeature spy")
-          //spyOn(this.featureVM, 'requestAddFeature');
+          spyOn(this.featureVM, 'getNewFeature').and.returnValue(this.testFeatureAF);
+          spyOn(this.featureVM, 'requestAddFeature');
+          this.featureVM.addFeature();
+        });
+        it('should call getNewFeature', () => {
+          expect(this.featureVM.getNewFeature).toHaveBeenCalled();
+        });
+        it('should call requestAddFeature with the test feature', () => {
+          expect(this.featureVM.requestAddFeature).toHaveBeenCalledWith(this.testFeatureAF);
+        });
+      })
+      describe("when getNewFeature returns an invalid feature", () => {
+        beforeEach(() => {
+          this.testFeatureAF = null;
+          spyOn(this.featureVM, 'getNewFeature').and.returnValue(false);
+          spyOn(this.featureVM, 'requestAddFeature');
           this.featureVM.addFeature();
         });
         it('should call getNewFeature', () => {
           expect(this.featureVM.getNewFeature).toHaveBeenCalled();
         })
-        xit('should call requestAddFeature with the test feature', () => {
-          expect(this.featureVM.requestAddFeature).toHaveBeenCalledWith(this.testFeatureAF);
+        it('should not call requestsAddFeature', () => {
+          expect(this.featureVM.requestAddFeature).not.toHaveBeenCalled();
         });
       })
     })
