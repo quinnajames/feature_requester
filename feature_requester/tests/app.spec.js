@@ -48,6 +48,8 @@ describe("Given FormViewModel implementation", () => {
         expect(this.testFormVM.isValidFeature(this.newFeature)).toBeTruthy();
       });
     });
+    // This couples extendFeature and isValidFeature a bit.
+    // I would like to directly test whether the .extend properties are on the features
      describe("Given extendFeature implementation", () => {
         beforeEach(() => {
           this.reallyLongTitle = `Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
@@ -241,7 +243,6 @@ describe("Given FeatureViewModel implementation", () => {
       })
     })
 
-    // todo
     describe("given addFeature implementation", () => {
       describe("when getNewFeature returns a valid feature", () => {
         beforeEach(() => {
@@ -274,8 +275,77 @@ describe("Given FeatureViewModel implementation", () => {
       })
     })
 
-    xdescribe("given sortFeatures implementation", () => {
-
+    describe("given sortFeatures implementation", () => {
+      beforeEach(() => {
+        this.testFeatureArray = ko.observableArray([]);
+      });
+      it('should return an empty array from an empty array', () => {
+        let sorted = this.featureVM.sortFeatures(testFeatureArray);
+        expect(sorted().length).toEqual(0);
+      })
+      it('should sort a one-element array as itself', () => {
+        this.testFeatureArray.push(new Feature(
+          "", "", "Client A", "x", "01/24/2018", "Policies", 1
+        ));
+        let sorted = this.featureVM.sortFeatures(testFeatureArray);
+        expect(sorted().length).toEqual(1);
+        expect(sorted()[0].id).toEqual(1);
+      })
+      it('should sort by client name with different clients', () => {
+        this.testFeatureArray = ko.observableArray([]);
+        this.testFeatureArray.push(new Feature(
+          "", "", "Client B", "1", "01/24/2018", "Policies", 1
+        ));
+        this.testFeatureArray.push(new Feature(
+            "", "", "Client A", "2", "01/24/2018", "Policies", 2
+        ));
+        let sorted = this.featureVM.sortFeatures(testFeatureArray);
+        expect(sorted().length).toEqual(2);
+        expect(sorted()[0].id).toEqual(2);
+        expect(sorted()[1].id).toEqual(1);
+      })
+      it('should sort by priority with the same client', () => {
+        this.testFeatureArray = ko.observableArray([]);
+        this.testFeatureArray.push(new Feature(
+          "", "", "Client A", "1", "01/24/2018", "Policies", 1
+        ));
+        this.testFeatureArray.push(new Feature(
+            "", "", "Client A", "3", "01/24/2018", "Policies", 2
+        ));
+        this.testFeatureArray.push(new Feature(
+            "", "", "Client A", "2", "01/24/2018", "Policies", 3
+        ));
+        let sorted = this.featureVM.sortFeatures(testFeatureArray);
+        expect(sorted().length).toEqual(3);
+        expect(sorted()[0].id).toEqual(1);
+        expect(sorted()[1].id).toEqual(3);
+        expect(sorted()[2].id).toEqual(2);
+      })
+      it('should group first by client name, then by priority', () => {
+        this.testFeatureArray = ko.observableArray([]);
+        this.testFeatureArray.push(new Feature(
+          "", "", "Client B", "4", "01/24/2018", "Policies", 1
+        ));
+        this.testFeatureArray.push(new Feature(
+            "", "", "Client C", "3", "01/24/2018", "Policies", 2
+        ));
+        this.testFeatureArray.push(new Feature(
+            "", "", "Client A", "1", "01/24/2018", "Policies", 3
+        ));
+        this.testFeatureArray.push(new Feature(
+            "", "", "Client C", "2", "01/24/2018", "Policies", 4
+        ));
+        this.testFeatureArray.push(new Feature(
+            "", "", "Client A", "2", "01/24/2018", "Policies", 5
+        ));
+        let sorted = this.featureVM.sortFeatures(testFeatureArray);
+        expect(sorted().length).toEqual(5);
+        expect(sorted()[0].id).toEqual(3);
+        expect(sorted()[1].id).toEqual(5);
+        expect(sorted()[2].id).toEqual(1);
+        expect(sorted()[3].id).toEqual(4);
+        expect(sorted()[4].id).toEqual(2);
+      })
     })
 
 

@@ -162,7 +162,7 @@ FeatureViewModel = function() {
     return array.sort(function (a, b) {
       return a.client() === b.client()
       ? a.priority() > b.priority() ? 1 : -1
-      : a.client() > b.client() ? 1 : 1;
+      : a.client() > b.client() ? 1 : -1;
     })
   }
 
