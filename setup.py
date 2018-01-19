@@ -14,7 +14,7 @@ setup(
                                    "project feature requests."),
     license = "MIT",
     url = "http://www.quinnjames.net",
-    packages=['feature_requester', 'tests'],
+    packages=['feature_requester'],
     install_requires=[
         'flask', 'flask_sqlalchemy', 'flask_bower', 'jasmine'
     ],
@@ -22,7 +22,7 @@ setup(
         'pytest_runner',
     ],
     tests_require=[
-        'pytest'
+        'pytest', 'pytest_flask'
     ],
     long_description=read('README'),
     classifiers=[
