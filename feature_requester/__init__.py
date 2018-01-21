@@ -1,2 +1,41 @@
-from .feature_requester import create_app, dev_uri
-app = create_app(dev_uri)
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bower import Bower
+import os, sqlite3
+
+
+db = SQLAlchemy()
+bower = Bower()
+
+def create_app(config=None):
+    app = Flask(__name__)
+
+    if config is not None:
+        app.config.from_object(config)
+
+    # temporary hack, change this asap
+    app.config.from_object('config.DevelopmentConfig')
+
+    db.init_app(app)
+    engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+    Bower(app)
+
+    from .features.views import features
+    app.register_blueprint(features, url_prefix='/')
+    app.register_blueprint(features, url_prefix='/features')
+    app.register_blueprint(features, url_prefix='/add')
+
+    @app.cli.command('initdb')
+    def initdb_command():
+        """Initializes the database."""
+        db.create_all()
+        print('Initialized the database.')
+
+    @app.cli.command('secretkey')
+    def secretkey_command():
+        """Print the secret key."""
+        print(app.config['SECRET_KEY'])
+
+    return app
+
+app = create_app()
