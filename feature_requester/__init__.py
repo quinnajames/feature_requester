@@ -13,17 +13,14 @@ def create_app(config=None):
     if config is not None:
         app.config.from_object(config)
 
-    # temporary hack, change this asap
-    app.config.from_object('config.DevelopmentConfig')
-
     db.init_app(app)
-    engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+    app.engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
     Bower(app)
 
-    from .features.views import features
-    app.register_blueprint(features, url_prefix='/')
-    app.register_blueprint(features, url_prefix='/features')
-    app.register_blueprint(features, url_prefix='/add')
+    from .features_bp.views import features_bp
+    app.register_blueprint(features_bp, url_prefix='/')
+    app.register_blueprint(features_bp, url_prefix='/features')
+    app.register_blueprint(features_bp, url_prefix='/add')
 
     @app.cli.command('initdb')
     def initdb_command():
@@ -38,4 +35,4 @@ def create_app(config=None):
 
     return app
 
-app = create_app()
+app = create_app('config.DevelopmentConfig')

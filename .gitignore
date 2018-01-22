@@ -1,4 +1,6 @@
-feature_requester/__pycache__
+__pycache__/
+feature_requester/features/__pycache__/
+feature_requester/features_bp/__pycache__/
 feature.db
 .eggs/
 feature_requester.egg-info/
@@ -7,4 +9,3 @@ instance/
 feature_requester/bower_components/
 feature_requester/node_modules/
 feature_requester/package-lock.json
-__pycache__/
