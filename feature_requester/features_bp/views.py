@@ -14,23 +14,27 @@ features_bp = Blueprint('features_bp', __name__)
 
 
 
-
 # Routes
 @features_bp.route('/')
 def show_features():
+    print('show_features function called from views.py')
     features = Feature.query.order_by(-Feature.id).all()
     for row in features:
         row.target_date = str(row.target_date.month) + '/' + str(row.target_date.day) + '/' + str(row.target_date.year)
+    print('features:')
+    print(features)
     return render_template('show_features.html', features=features)
 
-@features_bp.route('/features/')
+@features_bp.route('/features')
 def features_query():
+    print('features_query function called from views.py')
     features = [Feature.as_dict(x) for x in Feature.query.order_by(-Feature.id).all()]
     return jsonify(features=features)
 
 
 @features_bp.route('/add', methods=['POST'])
 def add_feature():
+    print('add_feature function called from views.py')
     json = request.get_json();
     date_array = [int(x) for x in json['target_date'].split('/')];
     python_date = date(date_array[2], date_array[0], date_array[1]);

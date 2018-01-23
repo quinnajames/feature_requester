@@ -18,9 +18,8 @@ def create_app(config=None):
     Bower(app)
 
     from .features_bp.views import features_bp
-    app.register_blueprint(features_bp, url_prefix='/')
-    app.register_blueprint(features_bp, url_prefix='/features')
-    app.register_blueprint(features_bp, url_prefix='/add')
+    app.register_blueprint(features_bp, url_prefix='')
+
 
     @app.cli.command('initdb')
     def initdb_command():

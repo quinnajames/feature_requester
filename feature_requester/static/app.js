@@ -168,7 +168,10 @@ FeatureViewModel = function() {
 
   // on load
   self.updateFeatures();
+  console.log(self.features());
   self.features = self.sortFeatures(self.features);
+  console.log('self.features:')
+  console.log(self.features());
 }
 
 let fvm = new FeatureViewModel();
