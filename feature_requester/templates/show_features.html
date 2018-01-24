@@ -118,6 +118,11 @@
                       <p class="description" data-bind="text: description"></p>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col">
+                      <button class="btn btn-light" data-bind="click: $root.requestDeleteFeature.bind($root, id)"><i class="fa fa-times fa-lg" aria-hidden="true"></i> Remove</button>
+                    </div>
+                  </div>
           </div>
           <div class="col med">
                   <div class="row">
@@ -137,7 +142,6 @@
                   </div>
           </div>
 
-          <a href="#" data-bind="click: $root.requestDeleteFeature.bind($root, id)">Delete</a>
         </div>
         </div>
       </div>
@@ -151,6 +155,8 @@
     <!-- /ko -->
 </div>
     <!-- js -->
+
+    <script src="https://use.fontawesome.com/99eeb378a1.js"></script>
     <script src="{{ url_for('bower.static', filename='jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ url_for('bower.static', filename='bootstrap/dist/js/bootstrap.min.js') }}"></script>

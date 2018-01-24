@@ -44,6 +44,11 @@ a#navtitle:hover, a#navtitle:ative {
   background-color: #252937;
   border-color: #f1f1f1;
 }
+.btn-light {
+  color: #252937;
+  background-color: #f1f1f1;
+  border-color: #414d60;
+}
 
 button {
   font-family: 'Raleway', sans-serif;
