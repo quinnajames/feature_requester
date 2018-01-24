@@ -8,5 +8,15 @@ var TestResponses = {
       status: 500,
       responseText: '500 Internal Server Error'
     }
+  },
+  deleteFeature: {
+    success: {
+      status: 200,
+      responseText: '{"id": 3}'
+    },
+    failure: {
+      status: 500,
+      responseText: '500 Internal Server Error'
+    }
   }
 };

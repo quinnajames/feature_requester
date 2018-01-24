@@ -52,6 +52,14 @@ def add_feature():
                     "product_area": json['product_area'],
                     "id": feature_id})
 
+@features_bp.route('/delete', methods=['POST'])
+def delete_feature():
+    id = request.get_json();
+    db.session.delete(Feature.query.get(id))
+    db.session.commit()
+    print(jsonify({"id": id}).response);
+    return jsonify({"id": id});
+
 @features_bp.before_request
 def before_request():
     print(url_for('features_bp.features_query'))

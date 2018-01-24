@@ -156,6 +156,32 @@ FeatureViewModel = function() {
       }
     }
 
+    //Removes feature in place
+    self.removeFeatureFromList = function(id, list) {
+      list.remove((item) => { return item.id === id; })
+    }
+
+    self.deleteOnSuccess = function(id) {
+      self.removeFeatureFromList(id, self.features);
+    }
+
+    self.requestDeleteFeature = function(id) {
+      return $.ajax({
+        url: '/delete',
+        contentType: 'application/json',
+        type: 'POST',
+        data: ko.toJSON(id),
+        dataType: 'json'})
+        .done((response) => {
+          console.log(response);
+          self.deleteOnSuccess(response.id);
+          console.log("Sent item remove request");
+        })
+        .fail(() => {
+          console.log("Failed to delete")
+        });
+    }
+
 
 
   self.sortFeatures = function(array) {

@@ -349,6 +349,39 @@ describe("Given FeatureViewModel implementation", () => {
     })
 
 
+    describe('given removeFeatureFromList implementation', () => {
+      it('should remove the correct feature from a 3-item list', () => {
+        let list = ko.observableArray([]);
+        list.push(new Feature(
+          "", "", "Client B", "4", "01/24/2018", "Policies", 3
+        ));
+        list.push(new Feature(
+            "", "", "Client C", "3", "01/24/2018", "Policies", 1
+        ));
+        list.push(new Feature(
+            "", "", "Client A", "1", "01/24/2018", "Policies", 2
+        ));
+        this.featureVM.removeFeatureFromList(1, list);
+        expect(list().length).toEqual(2);
+        expect(list()[0].id).toEqual(3);
+        expect(list()[1].id).toEqual(2);
+      })
+    })
+
+    describe("Given requestDeleteFeature implementation", () => {
+      beforeEach(() => {
+        this.testid = 3;
+      })
+      it('should call the success function', () => {
+        spyOn($, 'ajax').and.callFake(function(e) {
+          return $.Deferred().resolve(JSON.parse(TestResponses.deleteFeature.success.responseText)).promise();
+        });
+        this.featureVM.deleteOnSuccess = jasmine.createSpy("deleteOnSuccess spy").and.callThrough();
+        this.featureVM.requestDeleteFeature(this.testid);
+        expect(this.featureVM.deleteOnSuccess).toHaveBeenCalledWith(this.testid);
+      })
+    })
+
   afterEach(() => {
     this.featureVM = null;
   });
