@@ -100,7 +100,7 @@ FeatureViewModel = function() {
     return featureModels;
   }
 
-  self.updateFeatures = function() {
+  self.loadFeatures = function() {
     $.getJSON('/features', (input) => {
       self.features(self.mapJSONToFeatures(input));
     });
@@ -193,7 +193,7 @@ FeatureViewModel = function() {
   }
 
   // on load
-  self.updateFeatures();
+  self.loadFeatures();
   console.log(self.features());
   self.features = self.sortFeatures(self.features);
   console.log('self.features:')
