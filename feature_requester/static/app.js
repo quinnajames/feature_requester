@@ -1,5 +1,5 @@
 Feature = function(title, description, client, priority,
-      target_date, product_area, id) {
+  target_date, product_area, id) {
   let self = this;
   self.title = ko.observable(title)
   self.description = ko.observable(description)
@@ -9,12 +9,11 @@ Feature = function(title, description, client, priority,
   self.product_area = ko.observable(product_area);
   self.id = id;
   self.clientClass = ko.computed(function() {
-    if(self.client()) {
-      let css = self.client().toLowerCase().replace(/ /g,'');
+    if (self.client()) {
+      let css = self.client().toLowerCase().replace(/ /g, '');
       console.log(css);
       return css;
-    }
-    else {
+    } else {
       return 'defaultclient';
     }
   })
@@ -32,9 +31,15 @@ FormViewModel = function() {
 
 
   self.extendFeature = function(feature) {
-    feature.title.extend({maxLength: 100});
-    feature.description.extend({maxLength: 500});
-    feature.priority.extend({digit: true}); // This accepts all integers.
+    feature.title.extend({
+      maxLength: 100
+    });
+    feature.description.extend({
+      maxLength: 500
+    });
+    feature.priority.extend({
+      digit: true
+    }); // This accepts all integers.
     return feature;
   }
 
@@ -43,7 +48,7 @@ FormViewModel = function() {
     // need like a global or subscribable for the default priority
     let newFeatureObj = new Feature("", "", "Client A", 99,
       "01/24/2018", "Policies", null);
-      return self.extendFeature(newFeatureObj);
+    return self.extendFeature(newFeatureObj);
   }
 
   self.newFeature = self.populateNewFeature();
@@ -65,26 +70,43 @@ FeatureViewModel = function() {
   // 'Global'
   self.features = ko.observableArray([]);
 
-    self.showForm = ko.observable();
-    self.showForm(false);
+  self.showForm = ko.observable();
+  self.showForm(false);
 
-    self.toggleForm = function() {
-        console.log("toggleForm");
-        console.log(`changing ${self.showForm()} to ${!self.showForm()}`)
-        self.showForm(!self.showForm());
-      }
+  self.toggleForm = function() {
+    console.log("toggleForm");
+    console.log(`changing ${self.showForm()} to ${!self.showForm()}`)
+    self.showForm(!self.showForm());
+  }
 
-      self.makeFeatureFromServerData = function(data) {
-        return new Feature(
-          data.title,
-          data.description,
-          data.client,
-          data.priority,
-          data.target_date,
-          data.product_area,
-          data.id
-        );
-      }
+
+  self.parseTargetDate = function(date) {
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    let input = date.split(" ")
+    if (months.indexOf(input[2]) < 0) return "Invalid date";
+    else {
+      let output = "";
+      output += (months.indexOf(input[2]) + 1).toString(); // e.g. Jan is 0 + 1
+      output += "/";
+      output += input[1];
+      output += "/";
+      output += input[3];
+      return output;
+    }
+  }
+
+  self.makeFeatureFromServerData = function(data) {
+    return new Feature(
+      data.title,
+      data.description,
+      data.client,
+      data.priority,
+      self.parseTargetDate(data.target_date),
+      data.product_area,
+      data.id
+    );
+  }
+
 
 
   // Display stuff
@@ -113,8 +135,7 @@ FeatureViewModel = function() {
     if (!form.isValidFeature(form.newFeature)) {
       form.newFeature.errors.showAllMessages();
       return false;
-    }
-    else {
+    } else {
       return {
         'title': form.newFeature.title(),
         'description': form.newFeature.description(),
@@ -122,7 +143,7 @@ FeatureViewModel = function() {
         'priority': form.newFeature.priority(),
         'client_priority': form.newFeature.client_priority(),
         'target_date': form.newFeature.target_date(),
-        'product_area':form.newFeature.product_area()
+        'product_area': form.newFeature.product_area()
       };
     }
   }
@@ -134,61 +155,64 @@ FeatureViewModel = function() {
     self.features.unshift(self.makeFeatureFromServerData(serverData));
   }
 
-    self.requestAddFeature = function(data) {
-        return $.ajax({
-          url: '/add',
-          contentType: 'application/json',
-          type: 'POST',
-          data: JSON.stringify(data),
-          dataType: 'json'})
-          .done((serverData) => self.addOnSuccess(serverData))
-          .fail(() => console.log("Failed to save"))
-      }
+  self.requestAddFeature = function(data) {
+    return $.ajax({
+        url: '/add',
+        contentType: 'application/json',
+        type: 'POST',
+        data: JSON.stringify(data),
+        dataType: 'json'
+      })
+      .done((serverData) => self.addOnSuccess(serverData))
+      .fail(() => console.log("Failed to save"))
+  }
 
-    self.addFeature = function() {
-      let gnf = self.getNewFeature(self.formVM);
-      if (!gnf) {
-        return console.log("Form invalid");
-      }
-      else {
-        console.log(gnf);
-        self.requestAddFeature(gnf);
-      }
+  self.addFeature = function() {
+    let gnf = self.getNewFeature(self.formVM);
+    if (!gnf) {
+      return console.log("Form invalid");
+    } else {
+      console.log(gnf);
+      self.requestAddFeature(gnf);
     }
+  }
 
-    //Removes feature in place
-    self.removeFeatureFromList = function(id, list) {
-      list.remove((item) => { return item.id === id; })
-    }
+  //Removes feature in place
+  self.removeFeatureFromList = function(id, list) {
+    list.remove((item) => {
+      return item.id === id;
+    })
+  }
 
-    self.deleteOnSuccess = function(id) {
-      self.removeFeatureFromList(id, self.features);
-    }
+  self.deleteOnSuccess = function(id) {
+    self.removeFeatureFromList(id, self.features);
+  }
 
-    self.requestDeleteFeature = function(id) {
-      return $.ajax({
+  self.requestDeleteFeature = function(id) {
+    return $.ajax({
         url: '/delete',
         contentType: 'application/json',
         type: 'POST',
         data: ko.toJSON(id),
-        dataType: 'json'})
-        .done((response) => {
-          console.log(response);
-          self.deleteOnSuccess(response.id);
-          console.log("Sent item remove request");
-        })
-        .fail(() => {
-          console.log("Failed to delete")
-        });
-    }
+        dataType: 'json'
+      })
+      .done((response) => {
+        console.log(response);
+        self.deleteOnSuccess(response.id);
+        console.log("Sent item remove request");
+      })
+      .fail(() => {
+        console.log("Failed to delete")
+      });
+  }
 
 
 
   self.sortFeatures = function(array) {
-    return array.sort(function (a, b) {
-      return a.client() === b.client()
-      ? a.priority() > b.priority() ? 1 : -1
-      : a.client() > b.client() ? 1 : -1;
+    return array.sort(function(a, b) {
+      return a.client() === b.client() ?
+        a.priority() > b.priority() ? 1 : -1 :
+        a.client() > b.client() ? 1 : -1;
     })
   }
 

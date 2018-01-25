@@ -382,6 +382,15 @@ describe("Given FeatureViewModel implementation", () => {
       })
     })
 
+    describe("Given parseTargetDate implementation", () => {
+      it('should parse dates correctly', () => {
+        expect(this.featureVM.parseTargetDate('Wed, 24 Jan 2018 00:00:00 GMT')).toEqual('1/24/2018');
+      })
+      it('should reject an invalid date', () => {
+          expect(this.featureVM.parseTargetDate('Wed, 24 Ack 2018 00:00:00 GMT')).toEqual('Invalid date');
+      })
+    })
+
   afterEach(() => {
     this.featureVM = null;
   });
