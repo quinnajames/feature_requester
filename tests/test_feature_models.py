@@ -22,3 +22,4 @@ def test_create_feature_instance(session):
     assert feature.title == 'Test Feature'
     assert isinstance(feature.as_dict(), dict)
     assert feature.as_dict()['target_date'] == datetime(2018, 2, 1, 0, 0)
+    assert session.query(models.Feature).count() == 1
