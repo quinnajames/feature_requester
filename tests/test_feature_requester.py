@@ -1,7 +1,4 @@
-import pytest
+import flask
 
-class TestApp(object):
-    def test_equality(self):
-        assert 1 == 1
-    def test_inequality(self):
-        assert 1 == 2
+def test_app(app):
+    assert isinstance(app, flask.Flask)
