@@ -20,3 +20,10 @@ To run the app locally:
 11. cd ..
 12. flask run
 13. go to localhost:5000 in the browser
+
+Testing:
+Jasmine:
+jasmine -p 1337
+pytest:
+1. pip install pytest (within venv)
+2. python -m pytest

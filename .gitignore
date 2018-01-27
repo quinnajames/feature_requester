@@ -9,3 +9,4 @@ instance/
 feature_requester/bower_components/
 feature_requester/node_modules/
 feature_requester/package-lock.json
+.cache/
