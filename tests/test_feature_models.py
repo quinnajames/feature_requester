@@ -1,5 +1,5 @@
 from feature_requester.features_bp import models
-from datetime import date
+from datetime import date, datetime
 
 def test_create_feature_instance(session):
     """Create and save feature."""
@@ -20,4 +20,5 @@ def test_create_feature_instance(session):
 
     assert feature.id is not None
     assert feature.title == 'Test Feature'
-    
+    assert isinstance(feature.as_dict(), dict)
+    assert feature.as_dict()['target_date'] == datetime(2018, 2, 1, 0, 0)
