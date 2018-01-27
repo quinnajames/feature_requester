@@ -1,0 +1,23 @@
+from feature_requester.features_bp import models
+from datetime import date
+
+def test_create_feature_instance(session):
+    """Create and save feature."""
+
+    title = 'Test Feature'
+    description = 'This is a test feature.'
+    client = 'Client C'
+    priority = 1
+    client_priority = 'Client C_1'
+    target_date = date(2018, 2, 1)
+    product_area = 'Billing'
+
+    feature = models.Feature(title, description,
+    client, priority, client_priority, target_date,
+    product_area)
+    session.add(feature)
+    session.commit()
+
+    assert feature.id is not None
+    assert feature.title == 'Test Feature'
+    
