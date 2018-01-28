@@ -6,10 +6,12 @@ Unit tests are caught up.
 Still needs delete/update features, general cleanup, code coverage, deployment preparation.
 
 To run the app locally:
+
+On first run:
 1. Clone the repo
 2. cd to the top-level feature_requester directory
-3. [recommended] python3 -m venv venv
-4. [if 3] . venv/bin/activate
+3. python3 -m venv venv
+4. . venv/bin/activate
 5. pip install -e .
 6. export FLASK_APP=feature_requester
   [In Windows: set FLASK_APP=feature_requester]
@@ -21,9 +23,15 @@ To run the app locally:
 12. flask run
 13. go to localhost:5000 in the browser
 
+Subsequent runs:
+1. . venv/bin/activate
+2. export FLASK_APP=feature_requester
+3. flask run
+
 Testing:
 Jasmine:
 jasmine -p 1337
+
 pytest:
 1. pip install pytest (within venv)
 2. python -m pytest

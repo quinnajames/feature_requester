@@ -81,21 +81,37 @@ FeatureViewModel = function() {
 
 
   self.parseTargetDate = function(date) {
-    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    let input = date.split(" ")
-    if (months.indexOf(input[2]) < 0) return "Invalid date";
-    else {
+    if (date.indexOf('/') > 0) {
+      // Don't break a date that already comes in the correct form
+      // But remove leading zeros
+      let input = date.split("/");
       let output = "";
-      output += (months.indexOf(input[2]) + 1).toString(); // e.g. Jan is 0 + 1
-      output += "/";
-      output += input[1];
-      output += "/";
-      output += input[3];
+      output += parseInt(input[0],10).toString();
+      output += '/';
+      output += parseInt(input[1],10).toString();
+      output += '/';
+      output += parseInt(input[2],10).toString();
       return output;
+    }
+    else {
+      let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      let input = date.split(" ")
+      if (months.indexOf(input[2]) < 0) return "Invalid date";
+      else {
+        let output = "";
+        output += (months.indexOf(input[2]) + 1).toString(); // e.g. Jan is 0 + 1
+        output += "/";
+        output += input[1];
+        output += "/";
+        output += input[3];
+        return output;
+      }
     }
   }
 
   self.makeFeatureFromServerData = function(data) {
+    console.log("about to parse date:")
+    console.log(data.target_date);
     return new Feature(
       data.title,
       data.description,
