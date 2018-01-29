@@ -241,6 +241,27 @@ FeatureViewModel = function() {
 
   }
 
+  self.insertElement = function(set, feature) {
+    let client = feature.client();
+    let id = feature.id;
+    console.log(`id:`);
+    console.log(id);
+    let priority = feature.priority();
+    let client_priority = feature.client_priority();
+
+    ko.utils.arrayForEach(set(), (el) => {
+      if (el.client() === client && el.priority() >= priority) {
+        el.priority(el.priority() + 1);
+        // I have to manually recalc this with this method
+        //el.client_priority(el.client() + "_" + el.priority());
+      }
+    })
+    set.push(feature);
+    return set().indexOf(ko.utils.arrayFirst(set(), (x) => {
+      return x.id === id;
+    }));
+  }
+
 
 
   // on load
