@@ -353,13 +353,13 @@ describe("Given FeatureViewModel implementation", () => {
       it('should remove the correct feature from a 3-item list', () => {
         let list = ko.observableArray([]);
         list.push(new Feature(
-          "", "", "Client B", "4", "01/24/2018", "Policies", 3
+          "", "", "Client B", 4, "01/24/2018", "Policies", 3
         ));
         list.push(new Feature(
-            "", "", "Client C", "3", "01/24/2018", "Policies", 1
+            "", "", "Client C", 3, "01/24/2018", "Policies", 1
         ));
         list.push(new Feature(
-            "", "", "Client A", "1", "01/24/2018", "Policies", 2
+            "", "", "Client A", 1, "01/24/2018", "Policies", 2
         ));
         this.featureVM.removeFeatureFromList(1, list);
         expect(list().length).toEqual(2);
@@ -397,6 +397,33 @@ describe("Given FeatureViewModel implementation", () => {
       it('should remove a leading zero from an otherwise parsed date', () => {
           expect(this.featureVM.parseTargetDate('02/28/2018')).toEqual('2/28/2018');
       })
+    })
+
+    describe("given getHighestPossiblePriority implementation", () => {
+      beforeEach(() => {
+          this.priorityList = ko.observableArray([]);
+          this.priorityList.push(new Feature(
+            "", "", "Client B", 1, "01/24/2018", "Policies", 1
+          ));
+          this.priorityList.push(new Feature(
+            "", "", "Client B", 3, "01/24/2018", "Policies", 2
+          ));
+          this.priorityList.push(new Feature(
+            "", "", "Client B", 2, "01/24/2018", "Policies", 3
+          ));
+          this.priorityList.push(new Feature(
+              "", "", "Client C", 1, "01/24/2018", "Policies", 1
+          ));
+          this.priorityList.push(new Feature(
+              "", "", "Client A", 1, "01/24/2018", "Policies", 2
+          ));
+      })
+      it('should return the highest curent priority plus one', () => {
+        expect(this.featureVM.getHighestPossiblePriority(this.priorityList, "Client A")).toEqual(2);
+        expect(this.featureVM.getHighestPossiblePriority(this.priorityList, "Client B")).toEqual(4);
+        expect(this.featureVM.getHighestPossiblePriority(this.priorityList, "Client C")).toEqual(2);
+      })
+
     })
 
   afterEach(() => {
