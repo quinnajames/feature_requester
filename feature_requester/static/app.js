@@ -208,13 +208,24 @@ FeatureViewModel = function() {
 
 
 
-  self.sortFeatures = function(array) {
-    return array.sort(function(a, b) {
+  self.sortFeatures = function(set) {
+    return set.sort(function(a, b) {
       return a.client() === b.client() ?
         a.priority() > b.priority() ? 1 : -1 :
         a.client() > b.client() ? 1 : -1;
     })
   }
+
+
+  self.getHighestPossiblePriority = function(set, client) {
+    clientSet = ko.utils.arrayFilter(set(), (i) => {
+      return i.client() === client;
+    })
+    return self.sortFeatures(clientSet)[clientSet.length-1].priority()+1;
+
+  }
+
+
 
   // on load
   self.loadFeatures();
