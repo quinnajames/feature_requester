@@ -1,3 +1,113 @@
+describe("Given Shared functions implementation", () => {
+  beforeEach(() => {
+    this.testShared = new Shared();
+  })
+  describe("given sortFeatures implementation", () => {
+    beforeEach(() => {
+      this.testFeatureArray = ko.observableArray([]);
+    });
+    it('should return an empty array from an empty array', () => {
+      let sorted = this.testShared.sortFeatures(testFeatureArray);
+      expect(sorted().length).toEqual(0);
+    })
+    it('should sort a one-element array as itself', () => {
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client A", "x", "01/24/2018", "Policies", 1
+      ));
+      let sorted = this.testShared.sortFeatures(testFeatureArray);
+      expect(sorted().length).toEqual(1);
+      expect(sorted()[0].id).toEqual(1);
+    })
+    it('should sort by client name with different clients', () => {
+      this.testFeatureArray = ko.observableArray([]);
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client B", "1", "01/24/2018", "Policies", 1
+      ));
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client A", "2", "01/24/2018", "Policies", 2
+      ));
+      let sorted = this.testShared.sortFeatures(testFeatureArray);
+      expect(sorted().length).toEqual(2);
+      expect(sorted()[0].id).toEqual(2);
+      expect(sorted()[1].id).toEqual(1);
+    })
+    it('should sort by priority with the same client', () => {
+      this.testFeatureArray = ko.observableArray([]);
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client A", "1", "01/24/2018", "Policies", 1
+      ));
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client A", "3", "01/24/2018", "Policies", 2
+      ));
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client A", "2", "01/24/2018", "Policies", 3
+      ));
+      let sorted = this.testShared.sortFeatures(testFeatureArray);
+      expect(sorted().length).toEqual(3);
+      expect(sorted()[0].id).toEqual(1);
+      expect(sorted()[1].id).toEqual(3);
+      expect(sorted()[2].id).toEqual(2);
+    })
+    it('should group first by client name, then by priority', () => {
+      this.testFeatureArray = ko.observableArray([]);
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client B", "4", "01/24/2018", "Policies", 1
+      ));
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client C", "3", "01/24/2018", "Policies", 2
+      ));
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client A", "1", "01/24/2018", "Policies", 3
+      ));
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client C", "2", "01/24/2018", "Policies", 4
+      ));
+      this.testFeatureArray.push(new Feature(
+        "", "", "Client A", "2", "01/24/2018", "Policies", 5
+      ));
+      let sorted = this.testShared.sortFeatures(testFeatureArray);
+      expect(sorted().length).toEqual(5);
+      expect(sorted()[0].id).toEqual(3);
+      expect(sorted()[1].id).toEqual(5);
+      expect(sorted()[2].id).toEqual(1);
+      expect(sorted()[3].id).toEqual(4);
+      expect(sorted()[4].id).toEqual(2);
+    })
+  })
+
+  describe("given getHighestPossiblePriority implementation", () => {
+    beforeEach(() => {
+      this.priorityList = ko.observableArray([]);
+      this.priorityList.push(new Feature(
+        "", "", "Client B", 1, "01/24/2018", "Policies", 1
+      ));
+      this.priorityList.push(new Feature(
+        "", "", "Client B", 3, "01/24/2018", "Policies", 2
+      ));
+      this.priorityList.push(new Feature(
+        "", "", "Client B", 2, "01/24/2018", "Policies", 3
+      ));
+      this.priorityList.push(new Feature(
+        "", "", "Client C", 1, "01/24/2018", "Policies", 1
+      ));
+      this.priorityList.push(new Feature(
+        "", "", "Client A", 1, "01/24/2018", "Policies", 2
+      ));
+    })
+    it('should return the highest curent priority plus one', () => {
+      expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client A")).toEqual(2);
+      expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client B")).toEqual(4);
+      expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client C")).toEqual(2);
+    })
+
+  })
+
+  afterEach(() => {
+      this.testShared = null;
+    });
+});
+
+
 describe("Given Feature model implementation", () => {
   beforeEach(() => {
     this.testFeature = new Feature("Title", "Description", "Client A", 99,
@@ -274,79 +384,6 @@ describe("Given FeatureViewModel implementation", () => {
     })
   })
 
-  describe("given sortFeatures implementation", () => {
-    beforeEach(() => {
-      this.testFeatureArray = ko.observableArray([]);
-    });
-    it('should return an empty array from an empty array', () => {
-      let sorted = this.featureVM.sortFeatures(testFeatureArray);
-      expect(sorted().length).toEqual(0);
-    })
-    it('should sort a one-element array as itself', () => {
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client A", "x", "01/24/2018", "Policies", 1
-      ));
-      let sorted = this.featureVM.sortFeatures(testFeatureArray);
-      expect(sorted().length).toEqual(1);
-      expect(sorted()[0].id).toEqual(1);
-    })
-    it('should sort by client name with different clients', () => {
-      this.testFeatureArray = ko.observableArray([]);
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client B", "1", "01/24/2018", "Policies", 1
-      ));
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client A", "2", "01/24/2018", "Policies", 2
-      ));
-      let sorted = this.featureVM.sortFeatures(testFeatureArray);
-      expect(sorted().length).toEqual(2);
-      expect(sorted()[0].id).toEqual(2);
-      expect(sorted()[1].id).toEqual(1);
-    })
-    it('should sort by priority with the same client', () => {
-      this.testFeatureArray = ko.observableArray([]);
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client A", "1", "01/24/2018", "Policies", 1
-      ));
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client A", "3", "01/24/2018", "Policies", 2
-      ));
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client A", "2", "01/24/2018", "Policies", 3
-      ));
-      let sorted = this.featureVM.sortFeatures(testFeatureArray);
-      expect(sorted().length).toEqual(3);
-      expect(sorted()[0].id).toEqual(1);
-      expect(sorted()[1].id).toEqual(3);
-      expect(sorted()[2].id).toEqual(2);
-    })
-    it('should group first by client name, then by priority', () => {
-      this.testFeatureArray = ko.observableArray([]);
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client B", "4", "01/24/2018", "Policies", 1
-      ));
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client C", "3", "01/24/2018", "Policies", 2
-      ));
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client A", "1", "01/24/2018", "Policies", 3
-      ));
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client C", "2", "01/24/2018", "Policies", 4
-      ));
-      this.testFeatureArray.push(new Feature(
-        "", "", "Client A", "2", "01/24/2018", "Policies", 5
-      ));
-      let sorted = this.featureVM.sortFeatures(testFeatureArray);
-      expect(sorted().length).toEqual(5);
-      expect(sorted()[0].id).toEqual(3);
-      expect(sorted()[1].id).toEqual(5);
-      expect(sorted()[2].id).toEqual(1);
-      expect(sorted()[3].id).toEqual(4);
-      expect(sorted()[4].id).toEqual(2);
-    })
-  })
-
 
   describe('given removeFeatureFromList implementation', () => {
     it('should remove the correct feature from a 3-item list', () => {
@@ -396,33 +433,6 @@ describe("Given FeatureViewModel implementation", () => {
     it('should remove a leading zero from an otherwise parsed date', () => {
       expect(this.featureVM.parseTargetDate('02/28/2018')).toEqual('2/28/2018');
     })
-  })
-
-  describe("given getHighestPossiblePriority implementation", () => {
-    beforeEach(() => {
-      this.priorityList = ko.observableArray([]);
-      this.priorityList.push(new Feature(
-        "", "", "Client B", 1, "01/24/2018", "Policies", 1
-      ));
-      this.priorityList.push(new Feature(
-        "", "", "Client B", 3, "01/24/2018", "Policies", 2
-      ));
-      this.priorityList.push(new Feature(
-        "", "", "Client B", 2, "01/24/2018", "Policies", 3
-      ));
-      this.priorityList.push(new Feature(
-        "", "", "Client C", 1, "01/24/2018", "Policies", 1
-      ));
-      this.priorityList.push(new Feature(
-        "", "", "Client A", 1, "01/24/2018", "Policies", 2
-      ));
-    })
-    it('should return the highest curent priority plus one', () => {
-      expect(this.featureVM.getHighestPossiblePriority(this.priorityList, "Client A")).toEqual(2);
-      expect(this.featureVM.getHighestPossiblePriority(this.priorityList, "Client B")).toEqual(4);
-      expect(this.featureVM.getHighestPossiblePriority(this.priorityList, "Client C")).toEqual(2);
-    })
-
   })
 
   describe("given insertElement implementation", () => {
