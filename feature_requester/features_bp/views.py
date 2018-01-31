@@ -39,7 +39,7 @@ def add_feature():
     date_array = [int(x) for x in json['target_date'].split('/')];
     python_date = date(date_array[2], date_array[0], date_array[1]);
     json_input = Feature(json['title'], json['description'], json['client'],
-            json['priority'], json['client_priority'], python_date, json['product_area'])
+            json['priority'], python_date, json['product_area'])
 
     to_update = db.session.query(Feature)\
         .filter(Feature.client == json['client'], Feature.priority >= json['priority'])\
@@ -57,7 +57,6 @@ def add_feature():
                     "description": json['description'],
                     "client": json['client'],
                     "priority": json['priority'],
-                    "client_priority": json['client_priority'],
                     "target_date": json['target_date'],
                     "product_area": json['product_area'],
                     "id": feature_id})

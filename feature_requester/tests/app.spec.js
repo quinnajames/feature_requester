@@ -125,9 +125,6 @@ describe("Given Feature model implementation", () => {
     expect(this.testFeature.product_area()).toEqual("Policies");
 
   });
-  it("should create client_priority as combination of client and priority", () => {
-    expect(this.testFeature.client_priority()).toEqual("Client A_99");
-  });
   it("should create client CSS class", () => {
     expect(this.testFeature.clientClass()).toEqual("clienta");
   })
@@ -275,9 +272,6 @@ describe("Given FeatureViewModel implementation", () => {
     it('should give the new feature the correct title', () => {
       expect(this.featureVM.features()[0].title()).toEqual('Feature');
     })
-    it('should give the new feature the correct client_priority', () => {
-      expect(this.featureVM.features()[0].client_priority()).toEqual('Client A_13');
-    })
   })
 
   describe("Given mapJSONToFeatures implementation", () => {
@@ -285,7 +279,6 @@ describe("Given FeatureViewModel implementation", () => {
       this.testFeatureJSON = JSON.parse(JSON.stringify({
         "features": [{
             "client": "Client B",
-            "client_priority": "Client B_1",
             "description": "bluh",
             "id": 2,
             "priority": 1,
@@ -295,7 +288,6 @@ describe("Given FeatureViewModel implementation", () => {
           },
           {
             "client": "Client A",
-            "client_priority": "Client A_1",
             "description": "This is important.",
             "id": 1,
             "priority": 1,
@@ -314,9 +306,6 @@ describe("Given FeatureViewModel implementation", () => {
     it("should return a feature with correct priority", () => {
       expect(this.mappedFeature.priority()).toEqual(1);
     });
-    it("should return a feature with correct client_priority", () => {
-      expect(this.mappedFeature.client_priority()).toEqual("Client B_1");
-    });
   })
   describe("Given makeFeatureFromServerData implementation", () => {
     beforeEach(() => {
@@ -329,12 +318,6 @@ describe("Given FeatureViewModel implementation", () => {
     });
     it("should return a feature with correct priority", () => {
       expect(this.serverFeature.priority()).toEqual(13);
-    });
-    it("should return a feature with correct client_priority", () => {
-      expect(this.serverFeature.client_priority()).toEqual("Client A_13");
-    });
-    it("should ignore what the server says about client_priority", () => {
-      expect(this.serverFeature.client_priority()).not.toEqual("Client A_7");
     });
   })
 
@@ -380,9 +363,6 @@ describe("Given FeatureViewModel implementation", () => {
     it('should have correct static title', () => {
       // Function unwraps these attributes; they're not ko observables anymore.
       expect(this.gnfReturn.title).toEqual('Feature');
-    })
-    it('should have correct calculated client_priority', () => {
-      expect(this.gnfReturn.client_priority).toEqual('Client A_13');
     })
     it('should return FALSE when feature does not validate', () => {
       this.mockFormVM.isValidFeature = function(feature) {
@@ -518,24 +498,6 @@ describe("Given FeatureViewModel implementation", () => {
         return x.id === 1;
       })
       expect(item1.priority()).toEqual(1);
-    })
-    it('should recalc client_priority', () => {
-      let item1 = ko.utils.arrayFirst(this.insertList(), (x) => {
-        return x.id === 1;
-      })
-      let item2 = ko.utils.arrayFirst(this.insertList(), (x) => {
-        return x.id === 2;
-      })
-      let item3 = ko.utils.arrayFirst(this.insertList(), (x) => {
-        return x.id === 3;
-      })
-      let item6 = ko.utils.arrayFirst(this.insertList(), (x) => {
-        return x.id === 6;
-      })
-      expect(item2.client_priority()).toEqual("Client B_4");
-      expect(item3.client_priority()).toEqual("Client B_3");
-      expect(item6.client_priority()).toEqual("Client B_2");
-      expect(item1.client_priority()).toEqual("Client B_1");
     })
     it('should insert an additional element at the end', () => {
       let position_end = this.featureVM.insertElement(this.insertList, new Feature(

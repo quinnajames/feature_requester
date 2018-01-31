@@ -51,10 +51,6 @@ Feature = function(title, description, client, priority,
       return 'defaultclient';
     }
   })
-  // This will let us enforce a uniqueness constraint.
-  self.client_priority = ko.pureComputed(function() {
-    return self.client() + "_" + self.priority();
-  })
 }
 
 FormViewModel = function() {
@@ -203,7 +199,6 @@ FeatureViewModel = function() {
         'description': form.newFeature.description(),
         'client': form.newFeature.client(),
         'priority': parseInt(form.newFeature.priority(),10),
-        'client_priority': form.newFeature.client_priority(),
         'target_date': form.newFeature.target_date(),
         'product_area': form.newFeature.product_area()
       };
@@ -279,13 +274,10 @@ FeatureViewModel = function() {
     console.log(`id:`);
     console.log(id);
     let priority = feature.priority();
-    let client_priority = feature.client_priority();
 
     ko.utils.arrayForEach(set(), (el) => {
       if (el.client() === client && el.priority() >= priority) {
         el.priority(el.priority() + 1);
-        // I have to manually recalc this with this method
-        //el.client_priority(el.client() + "_" + el.priority());
       }
     })
     set.push(feature);
@@ -306,15 +298,4 @@ FeatureViewModel = function() {
 
 let fvm = new FeatureViewModel();
 
-// For dry-run purposes
-// fvm.features.push(new Feature("Feature", "A really important feature",
-// "Client A", 1, "04/01/2019", "Business", 2));
-// fvm.features.push(new Feature("Feature 2", "Perhaps a bit less important",
-// "Client A", 2, "06/17/2019", "Business", 1));
-// fvm.features.push(new Feature("New car", "Just literally a new car",
-// "Client B", 1, "06/17/2019", "Products", 3));
-// fvm.features.push(new Feature("Claim report", "Client claims there is a report",
-// "Client C", 1, "06/17/2019", "Claims", 3));
-// fvm.features.push(new Feature("Report claim", "Client reports there is a claim",
-// "Client C", 2, "06/17/2019", "Reports", 3));
 ko.applyBindings(fvm);
