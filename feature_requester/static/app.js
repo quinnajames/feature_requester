@@ -1,3 +1,24 @@
+Shared = function() {
+  let self = this;
+  self.sortFeatures = function(set) {
+    return set.sort(function(a, b) {
+      return a.client() === b.client() ?
+        a.priority() > b.priority() ? 1 : -1 :
+        a.client() > b.client() ? 1 : -1;
+    })
+  }
+
+
+  self.getHighestPossiblePriority = function(set, client) {
+    clientSet = ko.utils.arrayFilter(set(), (i) => {
+      return i.client() === client;
+    })
+    return self.sortFeatures(clientSet)[clientSet.length-1].priority()+1;
+
+  }
+}
+
+
 Feature = function(title, description, client, priority,
   target_date, product_area, id) {
   let self = this;
@@ -65,6 +86,7 @@ FormViewModel = function() {
 FeatureViewModel = function() {
   let self = this;
   self.formVM = new FormViewModel();
+  self.shared = new Shared();
 
   console.log(self.formVM);
   // 'Global'
@@ -224,29 +246,14 @@ FeatureViewModel = function() {
 
 
 
-  self.sortFeatures = function(set) {
-    return set.sort(function(a, b) {
-      return a.client() === b.client() ?
-        a.priority() > b.priority() ? 1 : -1 :
-        a.client() > b.client() ? 1 : -1;
-    })
-  }
 
-
-  self.getHighestPossiblePriority = function(set, client) {
-    clientSet = ko.utils.arrayFilter(set(), (i) => {
-      return i.client() === client;
-    })
-    return self.sortFeatures(clientSet)[clientSet.length-1].priority()+1;
-
-  }
 
 
 
   // on load
   self.loadFeatures();
   console.log(self.features());
-  self.features = self.sortFeatures(self.features);
+  self.features = self.shared.sortFeatures(self.features);
   console.log('self.features:')
   console.log(self.features());
 }
