@@ -1,9 +1,7 @@
 A program that allows a business client to create project feature requests.
 
 Current project status:
-Layout is substantially done, as is DB design and adding new requests.
-Unit tests are caught up.
-Still needs delete/update features, general cleanup, code coverage, deployment preparation.
+Deployed. http://feature-requester.herokuapp.com/
 
 To run the app locally:
 
