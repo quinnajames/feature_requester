@@ -10,11 +10,24 @@ Shared = function() {
 
 
   self.getHighestPossiblePriority = function(set, client) {
+    console.log("set:")
+    console.log(set());
+    console.log("client:")
+    console.log(client);
     clientSet = ko.utils.arrayFilter(set(), (i) => {
+      //console.log(i.client());
       return i.client() === client;
     })
-    return self.sortFeatures(clientSet)[clientSet.length-1].priority()+1;
-
+    console.log("clientSet:")
+    console.log(clientSet);
+    if (clientSet.length > 0)
+    {
+      return self.sortFeatures(clientSet)[clientSet.length-1].priority()+1;
+    }
+    else
+    {
+      return self.sortFeatures(ko.observableArray([]));
+    }
   }
 }
 
@@ -91,6 +104,18 @@ FeatureViewModel = function() {
   console.log(self.formVM);
   // 'Global'
   self.features = ko.observableArray([]);
+  self.getPriorityOptions = function(list, client) {
+    return ko.computed(() => {
+      let options = [];
+      let min = 1;
+      let max = self.shared.getHighestPossiblePriority(list, client);
+      for (let x = min; x <= max; x++) {
+        options.push(x.toString());
+      }
+      return options;
+    })
+  }
+
 
   self.showForm = ko.observable();
   self.showForm(false);

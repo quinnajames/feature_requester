@@ -94,7 +94,7 @@ describe("Given Shared functions implementation", () => {
         "", "", "Client A", 1, "01/24/2018", "Policies", 2
       ));
     })
-    it('should return the highest curent priority plus one', () => {
+    it('should return the highest current priority plus one', () => {
       expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client A")).toEqual(2);
       expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client B")).toEqual(4);
       expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client C")).toEqual(2);
@@ -216,6 +216,37 @@ describe("Given FeatureViewModel implementation", () => {
     });
   })
 
+
+  describe("given getPriorityOptions implementation", () => {
+    beforeEach(() => {
+      this.testList = ko.observableArray([]);
+      this.testList.push(new Feature(
+        "", "", "Client B", 1, "01/24/2018", "Policies", 1
+      ));
+      this.testList.push(new Feature(
+        "", "", "Client B", 3, "01/24/2018", "Policies", 2
+      ));
+      this.testList.push(new Feature(
+        "", "", "Client B", 2, "01/24/2018", "Policies", 3
+      ));
+      this.testList.push(new Feature(
+        "", "", "Client C", 1, "01/24/2018", "Policies", 4
+      ));
+      this.testList.push(new Feature(
+        "", "", "Client A", 1, "01/24/2018", "Policies", 5
+      ));
+    })
+
+    it("should retrieve ['1', '2', '3', '4'] when highest priority is 3", () => {
+      let options = this.featureVM.getPriorityOptions(this.testList, "Client B");
+      expect(options()).toEqual(['1', '2', '3', '4']);
+    })
+    it("should retrieve ['1', '2'] when highest priority is 1", () => {
+      let options = this.featureVM.getPriorityOptions(this.testList, "Client A");
+      expect(options()).toEqual(['1', '2']);
+    })
+
+  })
 
   describe("given addOnSuccess implementation", () => {
     beforeEach(() => {
