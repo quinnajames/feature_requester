@@ -40,7 +40,17 @@ def add_feature():
     python_date = date(date_array[2], date_array[0], date_array[1]);
     json_input = Feature(json['title'], json['description'], json['client'],
             json['priority'], json['client_priority'], python_date, json['product_area'])
+
+    to_update = db.session.query(Feature)\
+        .filter(Feature.client == json['client'], Feature.priority >= json['priority'])\
+        .order_by(-Feature.priority).all()
+
+    for entry in to_update:
+        entry.priority = entry.priority + 1
+        db.session.commit()
+
     db.session.add(json_input)
+
     db.session.commit()
     feature_id = Feature.query.order_by(-Feature.id).first().id
     return jsonify({"title": json['title'],

@@ -98,8 +98,10 @@ describe("Given Shared functions implementation", () => {
       expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client A")).toEqual(2);
       expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client B")).toEqual(4);
       expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client C")).toEqual(2);
+    });
+    it('should return 1 for an empty client', () => {
+      expect(this.testShared.getHighestPossiblePriority(this.priorityList, "Client D")).toEqual(1);
     })
-
   })
 
   afterEach(() => {
@@ -152,7 +154,7 @@ describe("Given FormViewModel implementation", () => {
       expect(this.newFeature.title()).toEqual("");
       expect(this.newFeature.description()).toEqual("");
       // Priority will need to be changed later
-      expect(this.newFeature.priority()).toEqual(99);
+      expect(this.newFeature.priority()).toEqual(1);
     });
     it("should have no errors on the feature", () => {
       expect(this.testFormVM.isValidFeature(this.newFeature)).toBeTruthy();
@@ -245,6 +247,10 @@ describe("Given FeatureViewModel implementation", () => {
       let options = this.featureVM.getPriorityOptions(this.testList, "Client A");
       expect(options()).toEqual(['1', '2']);
     })
+    it("should retrieve ['1'] when highest priority is 0", () => {
+      let options = this.featureVM.getPriorityOptions(ko.observableArray([]), "Client A");
+      expect(options()).toEqual(['1']);
+    })
 
   })
 
@@ -252,11 +258,15 @@ describe("Given FeatureViewModel implementation", () => {
     beforeEach(() => {
       this.addData = JSON.parse(TestResponses.addFeature.success.responseText);
       this.featureVM.features = ko.observableArray([]);
+      spyOn(this.featureVM, 'insertElement').and.callThrough();
       spyOn(this.featureVM, 'makeFeatureFromServerData').and.callThrough();
       this.featureVM.addOnSuccess(addData);
     })
     it('should call makeFeatureFromServerData', () => {
       expect(this.featureVM.makeFeatureFromServerData).toHaveBeenCalledWith(addData);
+    })
+    it('should call insertElement', () => {
+      expect(this.featureVM.insertElement).toHaveBeenCalled();
     })
     it('should add a feature to the features array', () => {
       expect(this.featureVM.features().length).toEqual(1);
@@ -526,6 +536,18 @@ describe("Given FeatureViewModel implementation", () => {
       expect(item3.client_priority()).toEqual("Client B_3");
       expect(item6.client_priority()).toEqual("Client B_2");
       expect(item1.client_priority()).toEqual("Client B_1");
+    })
+    it('should insert an additional element at the end', () => {
+      let position_end = this.featureVM.insertElement(this.insertList, new Feature(
+          "Test Feature 2", "", "Client B", 5, "01/24/2018", "Policies", 7
+        ));
+      let item7 = ko.utils.arrayFirst(this.insertList(), (x) => {
+        return x.id === 7;
+      })
+      expect(item7.id).toEqual(7);
+      expect(item7.priority()).toEqual(5);
+      expect(this.insertList()[position_end].priority()).toEqual(5);
+      expect(item7.title()).toEqual("Test Feature 2");
     })
   })
   afterEach(() => {

@@ -26,7 +26,7 @@ Shared = function() {
     }
     else
     {
-      return self.sortFeatures(ko.observableArray([]));
+      return 1;
     }
   }
 }
@@ -79,8 +79,7 @@ FormViewModel = function() {
 
 
   self.populateNewFeature = function() {
-    // need like a global or subscribable for the default priority
-    let newFeatureObj = new Feature("", "", "Client A", 99,
+    let newFeatureObj = new Feature("", "", "Client A", 1,
       "01/24/2018", "Policies", null);
     return self.extendFeature(newFeatureObj);
   }
@@ -203,7 +202,7 @@ FeatureViewModel = function() {
         'title': form.newFeature.title(),
         'description': form.newFeature.description(),
         'client': form.newFeature.client(),
-        'priority': form.newFeature.priority(),
+        'priority': parseInt(form.newFeature.priority(),10),
         'client_priority': form.newFeature.client_priority(),
         'target_date': form.newFeature.target_date(),
         'product_area': form.newFeature.product_area()
@@ -215,7 +214,7 @@ FeatureViewModel = function() {
 
   self.addOnSuccess = function(serverData) {
     console.log(serverData);
-    self.features.unshift(self.makeFeatureFromServerData(serverData));
+    self.insertElement(self.features, self.makeFeatureFromServerData(serverData));
   }
 
   self.requestAddFeature = function(data) {

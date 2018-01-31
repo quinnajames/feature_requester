@@ -2,6 +2,7 @@
 from datetime import date
 import sqlite3
 from feature_requester import db
+from sqlalchemy import UniqueConstraint
 
 
 __all__ = ['Feature']
@@ -14,9 +15,10 @@ class Feature(db.Model):
     description = db.Column(db.String(500), nullable=False)
     client = db.Column(db.String(30), nullable=False)
     priority = db.Column(db.Integer, nullable=False)
-    client_priority = db.Column(db.String(35), nullable=False, unique=True)
+    client_priority = db.Column(db.String(35), nullable=False)
     target_date = db.Column(db.DateTime, nullable=False)
     product_area = db.Column(db.String(30), nullable=False)
+    __table_args__ = (UniqueConstraint('client', 'priority', name="_client_priority_uc"),)
 
     def __init__(self, title, description, client, priority, client_priority,
         target_date, product_area):
